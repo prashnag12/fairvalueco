@@ -40,7 +40,7 @@ export default function InquiryForm() {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
-  setIsSubmitting(true);
+  setSubmitting(true);
 
   try {
     const response = await fetch("https://formspree.io/f/xreyvyaa", {
@@ -58,6 +58,26 @@ export default function InquiryForm() {
         case_summary: form.case_summary,
       }),
     });
+
+    if (response.ok) {
+      setSubmitted(true); // 👈 shows thank you screen
+      setForm({
+        full_name: "",
+        email: "",
+        phone: "",
+        dispute_type: "",
+        estimated_claim_value: "",
+        case_summary: "",
+      });
+    } else {
+      alert("Submission failed. Please try again.");
+    }
+  } catch (error) {
+    alert("There was an error submitting the form.");
+  } finally {
+    setSubmitting(false);
+  }
+};
 
     if (response.ok) {
       alert("Your request has been submitted successfully.");
