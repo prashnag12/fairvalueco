@@ -82,19 +82,15 @@ export default function InsuranceInsight() {
           })}
         </div>
 
-        {/* Outcome Bar */}
-        <div className="mt-10 grid grid-cols-[1fr_auto_1fr] gap-3 items-center px-1">
-          <div className="bg-destructive/10 border border-destructive/20 rounded p-4 text-center">
-            <p className="text-xs text-muted-foreground mb-1 uppercase tracking-widest">Typical Outcome</p>
-            <p className="text-xl font-extrabold text-destructive/70">Undervalued</p>
-            <p className="text-xs text-muted-foreground mt-1">Settlement accepted at face value</p>
-          </div>
-          <div className="w-10" />
-          <div className="bg-secondary/10 border border-secondary/25 rounded p-4 text-center">
-            <p className="text-xs text-muted-foreground mb-1 uppercase tracking-widest">Typical Outcome</p>
-            <p className="text-xl font-extrabold text-secondary">Improved Settlement</p>
-            <p className="text-xs text-muted-foreground mt-1">Backed by structured evidence</p>
-          </div>
+        {/* Bottom Callout */}
+        <div className="mt-10 bg-primary rounded-lg p-6 sm:p-8 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-secondary mb-2">The Result</p>
+          <p className="text-lg sm:text-xl font-extrabold text-white leading-snug">
+            A structured, independent valuation — before you accept any offer.
+          </p>
+          <p className="mt-2 text-sm text-white/60">
+            Identify the gap. Build the evidence. Negotiate from a position of clarity.
+          </p>
         </div>
 
       </div>
