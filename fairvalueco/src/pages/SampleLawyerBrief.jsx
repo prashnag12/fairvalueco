@@ -63,6 +63,16 @@ export default function SampleLawyerBrief() {
           </p>
         </Section>
 
+        {/* Scope of Review */}
+        <Section title="Scope of Review">
+          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+            This brief has been prepared based on the information made available at the time of review and is intended to assist in preliminary legal assessment.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            No independent verification of documents has been undertaken. The summary reflects a structured interpretation of the available information.
+          </p>
+        </Section>
+
         {/* Situation Overview */}
         <Section title="Situation Overview">
           <p className="text-sm text-muted-foreground leading-relaxed">
@@ -103,13 +113,13 @@ export default function SampleLawyerBrief() {
           </ul>
         </Section>
 
-        {/* Indicative Legal Considerations */}
-        <Section title="Indicative Legal Considerations">
+        {/* Preliminary Legal Considerations */}
+        <Section title="Preliminary Legal Considerations">
           <ul className="space-y-2">
             {[
-              "Breach of contract",
+              "Potential breach of contractual obligations",
               "Failure to perform within agreed terms",
-              "Potential claim for damages",
+              "Exposure to damages claims arising from non-performance",
             ].map((item) => (
               <li key={item} className="flex gap-3 text-sm text-muted-foreground">
                 <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
@@ -135,6 +145,23 @@ export default function SampleLawyerBrief() {
           </ul>
         </Section>
 
+        {/* Legal Risk Factors */}
+        <Section title="Legal Risk Factors">
+          <ul className="space-y-2">
+            {[
+              "Ambiguity in contractual interpretation",
+              "Potential disputes regarding liability",
+              "Variability in evidentiary strength",
+              "Jurisdictional considerations that may affect outcome",
+            ].map((item) => (
+              <li key={item} className="flex gap-3 text-sm text-muted-foreground">
+                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Section>
+
         {/* Strategic Observations */}
         <Section title="Strategic Observations">
           <ul className="space-y-2">
@@ -142,6 +169,22 @@ export default function SampleLawyerBrief() {
               "The matter appears legally viable based on available information",
               "A structured presentation of evidence may significantly improve efficiency",
               "Early clarification of damages and timelines will strengthen positioning",
+            ].map((item) => (
+              <li key={item} className="flex gap-3 text-sm text-muted-foreground">
+                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Section>
+
+        {/* Strategic Considerations */}
+        <Section title="Strategic Considerations">
+          <ul className="space-y-2">
+            {[
+              "Early clarification of contractual obligations may reduce dispute complexity",
+              "Structured presentation of evidence may improve efficiency of legal review",
+              "Pre-litigation positioning may influence negotiation dynamics",
             ].map((item) => (
               <li key={item} className="flex gap-3 text-sm text-muted-foreground">
                 <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
@@ -168,10 +211,27 @@ export default function SampleLawyerBrief() {
           </ol>
         </Section>
 
+        {/* Indicative Case Position */}
+        <Section title="Indicative Case Position">
+          <div className="border border-border rounded p-5 text-center">
+            <p className="text-sm font-semibold text-primary">Indicative Case Position: Legally Viable (Subject to Counsel Review)</p>
+          </div>
+        </Section>
+
         {/* Conclusion */}
         <Section title="Conclusion">
           <p className="text-sm text-muted-foreground leading-relaxed">
             The matter presents a viable basis for legal review. A structured, concise brief such as this may reduce onboarding time and support more efficient legal assessment.
+          </p>
+        </Section>
+
+        {/* Assumptions & Limitations */}
+        <Section title="Assumptions &amp; Limitations">
+          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+            This brief is based on the assumption that the information provided is accurate and complete.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            The analysis is indicative and may not account for all legal nuances, evidentiary developments, or jurisdiction-specific considerations.
           </p>
         </Section>
 

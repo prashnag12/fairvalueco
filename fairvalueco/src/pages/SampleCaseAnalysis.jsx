@@ -63,6 +63,16 @@ export default function SampleCaseAnalysis() {
           </p>
         </Section>
 
+        {/* Scope of Review */}
+        <Section title="Scope of Review">
+          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+            This assessment has been conducted based on the information available at the time of review.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            No independent verification of documents has been performed. The analysis is limited to the materials provided and reasonable assumptions based on standard dispute evaluation practices.
+          </p>
+        </Section>
+
         {/* Strength Assessment */}
         <Section title="Strength Assessment">
           <div className="bg-primary rounded p-5 text-center">
@@ -74,14 +84,15 @@ export default function SampleCaseAnalysis() {
         {/* Indicative Outcome Assessment */}
         <Section title="Indicative Outcome Assessment">
           <div className="border border-border rounded p-5 text-center mb-5">
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">Estimated Likelihood of Favourable Outcome</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">Indicative Probability of Favourable Outcome</p>
             <p className="text-2xl sm:text-3xl font-extrabold text-primary">65% – 75%</p>
+            <p className="text-sm text-muted-foreground mt-2">Confidence Level: Moderate</p>
           </div>
           <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-            This range reflects an indicative assessment based on the current information available, including evidence quality, contractual clarity, and potential counter-arguments.
+            This range reflects an indicative assessment based on evidence quality, contractual clarity, and potential counter-arguments.
           </p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Actual outcomes may vary depending on additional facts, legal interpretation, and the strength of representation.
+            Actual outcomes may vary depending on additional facts, legal interpretation, and representation.
           </p>
         </Section>
 
@@ -134,6 +145,26 @@ export default function SampleCaseAnalysis() {
           </ul>
         </Section>
 
+        {/* Methodology */}
+        <Section title="Methodology">
+          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+            This assessment has been conducted using a structured case evaluation framework, considering:
+          </p>
+          <ul className="space-y-2">
+            {[
+              "Evidence strength and completeness",
+              "Clarity of contractual obligations",
+              "Potential legal arguments and counter-arguments",
+              "Documentation quality and consistency",
+            ].map((item) => (
+              <li key={item} className="flex gap-3 text-sm text-muted-foreground">
+                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Section>
+
         {/* Strategic Positioning */}
         <Section title="Strategic Positioning">
           <p className="text-sm text-muted-foreground leading-relaxed">
@@ -160,8 +191,21 @@ export default function SampleCaseAnalysis() {
 
         {/* Conclusion */}
         <Section title="Conclusion">
-          <p className="text-sm text-muted-foreground leading-relaxed">
+          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
             The case has a solid foundation. Strengthening documentation and clarity will materially improve legal positioning and increase the likelihood of a favourable outcome.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            This assessment is intended to support informed decision-making prior to engaging legal counsel.
+          </p>
+        </Section>
+
+        {/* Assumptions & Limitations */}
+        <Section title="Assumptions &amp; Limitations">
+          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+            This assessment assumes that all information provided is accurate and complete.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            The analysis is indicative and does not account for undisclosed facts, legal nuances, or jurisdiction-specific interpretations that may affect outcome.
           </p>
         </Section>
 

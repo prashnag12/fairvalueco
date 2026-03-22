@@ -64,6 +64,16 @@ export default function SampleUpliftReport() {
           </p>
         </Section>
 
+        {/* Scope of Review */}
+        <Section title="Scope of Review">
+          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+            This assessment has been conducted based on the information provided and publicly available market data at the time of analysis.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            No independent verification of underlying documentation has been performed. The analysis is limited to observable data points, comparable listings, and reasonable assumptions based on market behaviour.
+          </p>
+        </Section>
+
         {/* Market Valuation Analysis */}
         <Section title="Market Valuation Analysis">
           <p className="text-sm text-muted-foreground leading-relaxed mb-4">
@@ -82,6 +92,30 @@ export default function SampleUpliftReport() {
               </li>
             ))}
           </ul>
+        </Section>
+
+        {/* Methodology */}
+        <Section title="Methodology">
+          <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+            The valuation assessment has been conducted using a comparative market analysis approach.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-3">Key inputs include:</p>
+          <ul className="space-y-2 mb-4">
+            {[
+              "Recent comparable vehicle listings",
+              "Adjustments for specifications, mileage, and condition",
+              "Geographic consistency of market data",
+              "Observed depreciation trends",
+            ].map((item) => (
+              <li key={item} className="flex gap-3 text-sm text-muted-foreground">
+                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                {item}
+              </li>
+            ))}
+          </ul>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Comparables have been normalised to ensure consistency in evaluating fair market value.
+          </p>
         </Section>
 
         {/* Key Findings */}
@@ -108,9 +142,9 @@ export default function SampleUpliftReport() {
             <Row label="Insurer Offer" value="$38,500" />
           </div>
           <div className="bg-primary border border-primary rounded p-5 text-center">
-            <p className="text-xs font-semibold uppercase tracking-widest text-white/60 mb-1">Potential Uplift</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-white/60 mb-1">Estimated Gap</p>
             <p className="text-2xl sm:text-3xl font-extrabold text-secondary">+$4,700</p>
-            <p className="text-sm font-semibold text-white/70 mt-1">12.2% increase</p>
+            <p className="text-sm font-semibold text-white/70 mt-1">Relative Difference: +12.2%</p>
           </div>
         </Section>
 
@@ -149,8 +183,24 @@ export default function SampleUpliftReport() {
 
         {/* Conclusion */}
         <Section title="Conclusion">
-          <p className="text-sm text-muted-foreground leading-relaxed">
+          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
             The current settlement appears below market value based on available data. A structured response supported by market evidence may improve the outcome.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            This assessment is based on structured comparative analysis techniques commonly used in valuation and advisory contexts.
+          </p>
+        </Section>
+
+        {/* Assumptions & Limitations */}
+        <Section title="Assumptions &amp; Limitations">
+          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+            This assessment is based on the assumption that all information provided is accurate and complete.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+            Market conditions may vary over time and across regions. The valuation reflects conditions at the time of analysis and may not account for future market changes.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            The analysis does not account for factors not disclosed or identifiable through available data sources.
           </p>
         </Section>
 
