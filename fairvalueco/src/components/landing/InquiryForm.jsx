@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
 
 const disputeTypes = [
   { value: "total_loss_auto", label: "Total Loss Auto" },
@@ -22,7 +21,6 @@ const claimValues = [
 ];
 
 export default function InquiryForm() {
-  const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
@@ -35,69 +33,49 @@ export default function InquiryForm() {
   });
 
   const updateField = (field, value) => {
-    setForm(prev => ({ ...prev, [field]: value }));
+    setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setSubmitting(true);
+    e.preventDefault();
+    setSubmitting(true);
 
-  try {
-    const response = await fetch("https://formspree.io/f/xreyvyaa", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        full_name: form.full_name,
-        email: form.email,
-        phone: form.phone,
-        dispute_type: form.dispute_type,
-        estimated_claim_value: form.estimated_claim_value,
-        case_summary: form.case_summary,
-      }),
-    });
-
-    if (response.ok) {
-      setSubmitted(true); // 👈 shows thank you screen
-      setForm({
-        full_name: "",
-        email: "",
-        phone: "",
-        dispute_type: "",
-        estimated_claim_value: "",
-        case_summary: "",
+    try {
+      const response = await fetch("https://formspree.io/f/xreyvyaa", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          full_name: form.full_name,
+          email: form.email,
+          phone: form.phone,
+          dispute_type: form.dispute_type,
+          estimated_claim_value: form.estimated_claim_value,
+          case_summary: form.case_summary,
+        }),
       });
-    } else {
-      alert("Submission failed. Please try again.");
-    }
-  } catch (error) {
-    alert("There was an error submitting the form.");
-  } finally {
-    setSubmitting(false);
-  }
-};
 
-    if (response.ok) {
-      alert("Your request has been submitted successfully.");
-      setForm({
-        full_name: "",
-        email: "",
-        phone: "",
-        dispute_type: "",
-        estimated_claim_value: "",
-        case_summary: "",
-      });
-    } else {
-      alert("Submission failed. Please try again.");
+      if (response.ok) {
+        setSubmitted(true);
+        setForm({
+          full_name: "",
+          email: "",
+          phone: "",
+          dispute_type: "",
+          case_summary: "",
+          estimated_claim_value: "",
+        });
+      } else {
+        alert("Submission failed. Please try again.");
+      }
+    } catch (error) {
+      alert("There was an error submitting the form.");
+    } finally {
+      setSubmitting(false);
     }
-  } catch (error) {
-    alert("There was an error submitting the form.");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   if (submitted) {
     return (
@@ -140,7 +118,7 @@ export default function InquiryForm() {
                 id="full_name"
                 required
                 value={form.full_name}
-                onChange={(e) => updateField('full_name', e.target.value)}
+                onChange={(e) => updateField("full_name", e.target.value)}
                 className="border-border focus:border-secondary"
               />
             </div>
@@ -151,7 +129,7 @@ export default function InquiryForm() {
                 type="email"
                 required
                 value={form.email}
-                onChange={(e) => updateField('email', e.target.value)}
+                onChange={(e) => updateField("email", e.target.value)}
                 className="border-border focus:border-secondary"
               />
             </div>
@@ -165,7 +143,7 @@ export default function InquiryForm() {
               id="phone"
               type="tel"
               value={form.phone}
-              onChange={(e) => updateField('phone', e.target.value)}
+              onChange={(e) => updateField("phone", e.target.value)}
               className="border-border focus:border-secondary"
             />
           </div>
@@ -176,31 +154,36 @@ export default function InquiryForm() {
               <Select
                 required
                 value={form.dispute_type}
-                onValueChange={(v) => updateField('dispute_type', v)}
+                onValueChange={(v) => updateField("dispute_type", v)}
               >
                 <SelectTrigger className="border-border">
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
                 <SelectContent>
                   {disputeTypes.map((type) => (
-                    <SelectItem key={type.value} value={type.value}>{type.label}</SelectItem>
+                    <SelectItem key={type.value} value={type.value}>
+                      {type.label}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
+
             <div className="space-y-2">
               <Label className="text-sm font-semibold text-primary">Estimated Claim Value</Label>
               <Select
                 required
                 value={form.estimated_claim_value}
-                onValueChange={(v) => updateField('estimated_claim_value', v)}
+                onValueChange={(v) => updateField("estimated_claim_value", v)}
               >
                 <SelectTrigger className="border-border">
                   <SelectValue placeholder="Select range" />
                 </SelectTrigger>
                 <SelectContent>
                   {claimValues.map((val) => (
-                    <SelectItem key={val.value} value={val.value}>{val.label}</SelectItem>
+                    <SelectItem key={val.value} value={val.value}>
+                      {val.label}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -215,7 +198,7 @@ export default function InquiryForm() {
               placeholder="Briefly describe your situation"
               rows={5}
               value={form.case_summary}
-              onChange={(e) => updateField('case_summary', e.target.value)}
+              onChange={(e) => updateField("case_summary", e.target.value)}
               className="border-border focus:border-secondary resize-none"
             />
           </div>
@@ -226,7 +209,7 @@ export default function InquiryForm() {
             size="lg"
             className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground font-bold text-base py-6 rounded"
           >
-            {submitting ? "Submitting…" : "Submit Request"}
+            {submitting ? "Submitting..." : "Submit Request"}
           </Button>
 
           <p className="text-center text-xs sm:text-sm text-muted-foreground mt-2">
