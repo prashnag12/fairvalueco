@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { base44 } from '@/api/base44Client';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -40,16 +39,65 @@ export default function InquiryForm() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    await base44.entities.CaseInquiry.create(form);
-    setSubmitting(false);
-    setSubmitted(true);
-    toast({
-      title: "Inquiry Submitted",
-      description: "We'll review your case and respond within 24 hours.",
+  e.preventDefault();
+  setSubmitting(true);
+
+  try {
+    const response = await fetch("https://formspree.io/f/xreyvyaa", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify({
+        full_name: form.full_name,
+        email: form.email,
+        phone: form.phone,
+        dispute_type: form.dispute_type,
+        estimated_claim_value: form.estimated_claim_value,
+        case_summary: form.case_summary,
+      }),
     });
-  };
+
+    if (response.ok) {
+      setSubmitted(true); // 👈 shows thank you screen
+      setForm({
+        full_name: "",
+        email: "",
+        phone: "",
+        dispute_type: "",
+        estimated_claim_value: "",
+        case_summary: "",
+      });
+    } else {
+      alert("Submission failed. Please try again.");
+    }
+  } catch (error) {
+    alert("There was an error submitting the form.");
+  } finally {
+    setSubmitting(false);
+  }
+};
+
+    if (response.ok) {
+      alert("Your request has been submitted successfully.");
+      setForm({
+        full_name: "",
+        email: "",
+        phone: "",
+        dispute_type: "",
+        estimated_claim_value: "",
+        case_summary: "",
+      });
+    } else {
+      alert("Submission failed. Please try again.");
+    }
+  } catch (error) {
+    alert("There was an error submitting the form.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   if (submitted) {
     return (
