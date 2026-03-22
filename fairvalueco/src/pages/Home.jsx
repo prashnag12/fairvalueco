@@ -4,6 +4,8 @@ import HeroSection from '../components/landing/HeroSection';
 import UrgencySection from '../components/landing/UrgencySection';
 import WhyThisMatters from '../components/landing/WhyThisMatters';
 import OutcomesTable from '../components/landing/OutcomesTable';
+import InsuranceInsight from '../components/landing/InsuranceInsight';
+import CaseInsight from '../components/landing/CaseInsight';
 import HowItWorks from '../components/landing/HowItWorks';
 import SampleReports from '../components/landing/SampleReports';
 import MidPageCTA from '../components/landing/MidPageCTA';
@@ -21,6 +23,8 @@ export default function Home() {
       <UrgencySection />
       <WhyThisMatters />
       <OutcomesTable />
+      <InsuranceInsight />
+      <CaseInsight />
       <HowItWorks />
       <SampleReports />
       <MidPageCTA />
