@@ -41,8 +41,11 @@ export default function HeroSection() {
             <h3 className="text-xl sm:text-2xl font-bold text-primary leading-snug">
               Insurance Claim Uplift Assessment
             </h3>
-            <p className="mt-4 text-muted-foreground leading-relaxed text-sm sm:text-base max-w-sm text-justify">
+            <p className="mt-4 text-muted-foreground leading-relaxed text-xs sm:text-sm max-w-sm text-justify">
               Many claims are settled below their true value, often without you realising it. We identify what may have been overlooked before you proceed further.
+            </p>
+            <p className="mt-3 text-muted-foreground leading-relaxed text-xs sm:text-sm max-w-sm text-justify">
+              Our analysis highlights gaps in valuation, inconsistencies in insurer logic, and areas where additional value may be justified. This gives you clarity before you make a final decision.
             </p>
             <Button
               onClick={() => scrollTo('#contact')}
@@ -58,8 +61,11 @@ export default function HeroSection() {
             <h3 className="text-xl sm:text-2xl font-bold text-primary leading-snug">
               Structured Case Analysis (AI-Assisted)
             </h3>
-            <p className="mt-4 text-muted-foreground leading-relaxed text-sm sm:text-base max-w-sm text-justify">
+            <p className="mt-4 text-muted-foreground leading-relaxed text-xs sm:text-sm max-w-sm text-justify">
               Before engaging legal support, understand whether your case has real strength, where the gaps are, and what your next move should be.
+            </p>
+            <p className="mt-3 text-muted-foreground leading-relaxed text-xs sm:text-sm max-w-sm text-justify">
+              We assess key facts, potential risks, and strategic positioning so you can approach the situation with clarity and confidence.
             </p>
             <Button
               onClick={() => scrollTo('#contact')}

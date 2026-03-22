@@ -22,7 +22,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-border">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 flex items-center justify-between h-16 sm:h-20">
         <button onClick={() => scrollTo('#home')} className="text-xl sm:text-2xl font-extrabold tracking-tight text-primary">
-          FairValueCo
+          FairValue Analysis
         </button>
 
         {/* Desktop nav */}

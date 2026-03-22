@@ -18,7 +18,7 @@ const phases = [
   },
   {
     number: "04",
-    title: "Detailed Analysis & Guidance",
+    title: "Analysis & Guidance",
     text: "Receive structured insights and recommended next steps.",
   },
 ];
@@ -33,10 +33,10 @@ export default function HowItWorks() {
 
         <div className="mt-12 sm:mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {phases.map((phase) => (
-            <div key={phase.number} className="border-t-2 border-secondary pt-6">
-              <span className="text-3xl sm:text-4xl font-extrabold text-secondary/40">{phase.number}</span>
-              <h3 className="mt-3 text-lg font-bold text-white">{phase.title}</h3>
-              <p className="mt-2 text-sm text-white/65 leading-relaxed">{phase.text}</p>
+            <div key={phase.number} className="border-t-2 border-secondary pt-6 flex flex-col">
+              <span className="text-3xl sm:text-4xl font-extrabold text-secondary text-center">{phase.number}</span>
+              <h3 className="mt-3 text-base font-bold text-white text-center leading-snug">{phase.title}</h3>
+              <p className="mt-2 text-sm text-white/65 leading-relaxed text-center">{phase.text}</p>
             </div>
           ))}
         </div>

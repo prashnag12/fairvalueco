@@ -20,7 +20,7 @@ export default function ServicesDetail() {
       <div className="max-w-5xl mx-auto px-5 sm:px-8">
         <div className="grid md:grid-cols-2 gap-10 sm:gap-16">
           <div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight text-center">
               Insurance Uplift
             </h2>
             <div className="mt-6 space-y-4">
@@ -33,7 +33,7 @@ export default function ServicesDetail() {
           </div>
 
           <div id="litigation">
-            <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight text-center">
               Case / Litigation Analysis
             </h2>
             <div className="mt-6 space-y-4">

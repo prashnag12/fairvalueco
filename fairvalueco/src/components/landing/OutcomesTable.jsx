@@ -27,7 +27,7 @@ export default function OutcomesTable() {
         </h2>
 
         <div className="mt-10 sm:mt-14 overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-center">
             <thead>
               <tr className="border-b-2 border-white/20">
                 <th className="pb-4 pr-6 text-xs sm:text-sm font-bold text-white/60 uppercase tracking-wider">Subject</th>
