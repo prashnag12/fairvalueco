@@ -5,6 +5,7 @@ import UrgencySection from '../components/landing/UrgencySection';
 import WhyThisMatters from '../components/landing/WhyThisMatters';
 import OutcomesTable from '../components/landing/OutcomesTable';
 import HowItWorks from '../components/landing/HowItWorks';
+import SampleReports from '../components/landing/SampleReports';
 import MidPageCTA from '../components/landing/MidPageCTA';
 import ServicesDetail from '../components/landing/ServicesDetail';
 import InquiryForm from '../components/landing/InquiryForm';
@@ -21,6 +22,7 @@ export default function Home() {
       <WhyThisMatters />
       <OutcomesTable />
       <HowItWorks />
+      <SampleReports />
       <MidPageCTA />
       <ServicesDetail />
       <InquiryForm />

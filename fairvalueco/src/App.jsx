@@ -6,6 +6,9 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Home from './pages/Home';
+import SampleUpliftReport from './pages/SampleUpliftReport';
+import SampleCaseAnalysis from './pages/SampleCaseAnalysis';
+import SampleLawyerBrief from './pages/SampleLawyerBrief';
 // Add page imports here
 
 const AuthenticatedApp = () => {
@@ -35,6 +38,9 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/sample-uplift-report" element={<SampleUpliftReport />} />
+      <Route path="/sample-case-analysis" element={<SampleCaseAnalysis />} />
+      <Route path="/sample-lawyer-brief" element={<SampleLawyerBrief />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
