@@ -252,8 +252,8 @@ export default function SampleLawyerBrief() {
 
         {/* Branded Footer */}
         <div className="mt-10 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
-          <span className="text-base font-extrabold text-primary tracking-tight">FairValue Analysis</span>
-          <span className="text-xs text-muted-foreground">hello@fairvalueanalysis.com</span>
+          <span className="text-xl font-extrabold text-primary tracking-tight">FairValue Analysis</span>
+          <span className="text-sm text-muted-foreground">hello@fairvalueanalysis.com</span>
         </div>
 
       </div>

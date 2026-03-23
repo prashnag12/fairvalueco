@@ -1,59 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
-import { ArrowLeft, Calendar, Tag, FileText } from 'lucide-react';
+import { ArrowLeft, Calendar, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '../components/landing/Navbar';
 import Footer from '../components/landing/Footer';
-
-const INSURANCE_CATS = ['Insurance Claims', 'Total Loss', 'Diminished Value', 'Claim Negotiation'];
-const LITIGATION_CATS = ['Case Analysis', 'Legal Insights', 'Educational'];
-
-function SidebarPosts({ posts, currentSlug }) {
-  const insurance = posts.filter((p) => INSURANCE_CATS.includes(p.category));
-  const litigation = posts.filter((p) => LITIGATION_CATS.includes(p.category));
-  const other = posts.filter((p) => !INSURANCE_CATS.includes(p.category) && !LITIGATION_CATS.includes(p.category));
-
-  const Group = ({ title, items }) => {
-    if (!items.length) return null;
-    return (
-      <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-secondary mb-3 pb-2 border-b border-border">{title}</p>
-        <ul className="space-y-3">
-          {items
-            .slice()
-            .sort((a, b) => new Date(b.publish_date) - new Date(a.publish_date))
-            .map((p) => (
-              <li key={p.id}>
-                <Link
-                  to={`/blog/${p.slug}`}
-                  className={`block text-sm leading-snug hover:text-secondary transition-colors ${
-                    p.slug === currentSlug ? 'text-secondary font-semibold' : 'text-muted-foreground'
-                  }`}
-                >
-                  {p.title}
-                </Link>
-                {p.publish_date && (
-                  <p className="text-xs text-muted-foreground/60 mt-0.5">
-                    {new Date(p.publish_date).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
-                  </p>
-                )}
-              </li>
-            ))}
-        </ul>
-      </div>
-    );
-  };
-
-  return (
-    <div className="bg-muted border border-border rounded-lg p-5 space-y-7">
-      <p className="text-sm font-extrabold text-primary">All Articles</p>
-      <Group title="Insurance" items={insurance} />
-      <Group title="Litigation" items={litigation} />
-      <Group title="Other" items={other} />
-    </div>
-  );
-}
+import BlogCommentForm from '../components/blog/BlogCommentForm';
+import BlogSidebar from '../components/blog/BlogSidebar';
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -138,6 +91,15 @@ export default function BlogPost() {
                 </p>
               )}
 
+              {/* Tags */}
+              {post.category && (
+                <div className="flex flex-wrap gap-2 mt-5">
+                  <span className="inline-flex items-center gap-1.5 bg-secondary/10 text-secondary text-xs font-semibold px-3 py-1 rounded-full border border-secondary/20">
+                    <Tag className="w-3 h-3" />{post.category}
+                  </span>
+                </div>
+              )}
+
               {/* Featured Image */}
               {post.featured_image && (
                 <img
@@ -153,8 +115,11 @@ export default function BlogPost() {
                 dangerouslySetInnerHTML={{ __html: post.body }}
               />
 
+              {/* Comment Form */}
+              <BlogCommentForm postTitle={post.title} />
+
               {/* CTA */}
-              <div className="mt-16 bg-primary rounded-lg p-8 text-center">
+              <div className="mt-12 bg-primary rounded-lg p-8 text-center">
                 <p className="text-xs font-bold uppercase tracking-widest text-secondary mb-3">Get Independent Advice</p>
                 <p className="text-lg sm:text-xl font-extrabold text-white leading-snug max-w-xl mx-auto">
                   If you would like an independent review of your insurance claim valuation, get in touch with FairValue Analysis.
@@ -188,7 +153,7 @@ export default function BlogPost() {
             {/* Sidebar */}
             <aside className="w-full lg:w-72 shrink-0">
               <div className="sticky top-24">
-                <SidebarPosts posts={allPosts} currentSlug={slug} />
+                <BlogSidebar posts={allPosts} currentSlug={slug} />
               </div>
             </aside>
 

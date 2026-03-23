@@ -4,10 +4,10 @@ export default function Footer() {
   return (
     <footer className="py-12 sm:py-16 bg-primary border-t border-white/10">
       <div className="max-w-3xl mx-auto px-5 sm:px-8 text-center">
-        <span className="text-xl font-extrabold text-white tracking-tight">FairValue Analysis</span>
-        <p className="mt-2 text-sm text-white/50">
+        <span className="text-3xl font-extrabold text-white tracking-tight">FairValue Analysis</span>
+        <p className="mt-2 text-base text-white/50">
           <a href="mailto:hello@fairvalueanalysis.com" className="hover:text-white/70 transition-colors">
-            hello@fairvalueanalysis.com
+          hello@fairvalueanalysis.com
           </a>
         </p>
 

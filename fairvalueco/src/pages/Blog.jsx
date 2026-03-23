@@ -4,6 +4,7 @@ import { base44 } from '@/api/base44Client';
 import { ArrowRight, Calendar, Tag } from 'lucide-react';
 import Navbar from '../components/landing/Navbar';
 import Footer from '../components/landing/Footer';
+import BlogSidebar from '../components/blog/BlogSidebar';
 
 export default function Blog() {
   const [posts, setPosts] = useState([]);
@@ -33,9 +34,11 @@ export default function Blog() {
         </div>
       </div>
 
-      {/* Posts */}
+      {/* Posts + Sidebar */}
       <div className="py-16 sm:py-24 px-5">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-10 lg:gap-14 items-start">
+          {/* Post List */}
+          <div className="flex-1 min-w-0">
           {loading ? (
             <div className="flex justify-center py-20">
               <div className="w-8 h-8 border-4 border-border border-t-primary rounded-full animate-spin" />
@@ -78,6 +81,13 @@ export default function Blog() {
               ))}
             </div>
           )}
+          </div>
+          {/* Sidebar */}
+          <aside className="w-full lg:w-72 shrink-0">
+            <div className="sticky top-24">
+              <BlogSidebar posts={posts} currentSlug={null} />
+            </div>
+          </aside>
         </div>
       </div>
 
