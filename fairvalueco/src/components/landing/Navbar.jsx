@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
@@ -14,6 +15,10 @@ export default function Navbar() {
 
   const scrollTo = (href) => {
     setMobileOpen(false);
+    if (window.location.pathname !== '/') {
+      window.location.href = '/' + href;
+      return;
+    }
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
@@ -21,9 +26,9 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-border">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 flex items-center justify-between h-16 sm:h-20">
-        <button onClick={() => scrollTo('#home')} className="text-xl sm:text-2xl font-extrabold tracking-tight text-primary">
+        <Link to="/" className="text-xl sm:text-2xl font-extrabold tracking-tight text-primary">
           FairValue Analysis
-        </button>
+        </Link>
 
         {/* Desktop nav */}
         <div className="hidden lg:flex items-center gap-8">
@@ -36,6 +41,9 @@ export default function Navbar() {
               {link.label}
             </button>
           ))}
+          <Link to="/blog" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+            Blog
+          </Link>
           <Button
             onClick={() => scrollTo('#contact')}
             className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold px-6 rounded"
@@ -69,6 +77,13 @@ export default function Navbar() {
                 {link.label}
               </button>
             ))}
+            <Link
+              to="/blog"
+              onClick={() => setMobileOpen(false)}
+              className="text-left text-base font-medium text-primary hover:text-secondary transition-colors"
+            >
+              Blog
+            </Link>
             <Button
               onClick={() => scrollTo('#contact')}
               className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold mt-2 rounded"

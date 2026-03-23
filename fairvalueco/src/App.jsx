@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
@@ -9,7 +9,21 @@ import Home from './pages/Home';
 import SampleUpliftReport from './pages/SampleUpliftReport';
 import SampleCaseAnalysis from './pages/SampleCaseAnalysis';
 import SampleLawyerBrief from './pages/SampleLawyerBrief';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
+import BlogAdmin from './pages/BlogAdmin';
 // Add page imports here
+
+const AdminRoute = ({ children }) => {
+  const { user, isLoadingAuth, navigateToLogin } = useAuth();
+  if (isLoadingAuth) return null;
+  if (!user) {
+    navigateToLogin();
+    return null;
+  }
+  if (user.role !== 'admin') return <Navigate to="/" replace />;
+  return children;
+};
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -41,6 +55,10 @@ const AuthenticatedApp = () => {
       <Route path="/sample-uplift-report" element={<SampleUpliftReport />} />
       <Route path="/sample-case-analysis" element={<SampleCaseAnalysis />} />
       <Route path="/sample-lawyer-brief" element={<SampleLawyerBrief />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/:slug" element={<BlogPost />} />
+      <Route path="/content-studio-fv" element={<AdminRoute><BlogAdmin /></AdminRoute>} />
+      <Route path="/blog-admin" element={<Navigate to="/" replace />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
