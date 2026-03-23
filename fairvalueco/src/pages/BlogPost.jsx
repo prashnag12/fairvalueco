@@ -8,6 +8,29 @@ import Footer from '../components/landing/Footer';
 import BlogCommentForm from '../components/blog/BlogCommentForm';
 import BlogSidebar from '../components/blog/BlogSidebar';
 
+function useSEO({ title, description, url }) {
+  useEffect(() => {
+    if (title) document.title = title;
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) { metaDesc = document.createElement('meta'); metaDesc.name = 'description'; document.head.appendChild(metaDesc); }
+    if (description) metaDesc.content = description;
+
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property', 'og:title'); document.head.appendChild(ogTitle); }
+    ogTitle.content = title || '';
+
+    let ogDesc = document.querySelector('meta[property="og:description"]');
+    if (!ogDesc) { ogDesc = document.createElement('meta'); ogDesc.setAttribute('property', 'og:description'); document.head.appendChild(ogDesc); }
+    ogDesc.content = description || '';
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
+    if (url) canonical.href = url;
+
+    return () => { document.title = 'FairValue Analysis'; };
+  }, [title, description, url]);
+}
+
 export default function BlogPost() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
@@ -18,19 +41,29 @@ export default function BlogPost() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setLoading(true);
+    setNotFound(false);
+    setPost(null);
     base44.entities.BlogPost.filter({ status: 'published' }, '-publish_date', 100)
       .then((allPublished) => {
-        setAllPosts(allPublished);
-        const results = allPublished.filter((p) => p.slug === slug);
-        if (!results || results.length === 0) { setNotFound(true); return; }
-        const p = results[0];
-        setPost(p);
-        if (p.category) {
-          setRelated(allPublished.filter((r) => r.category === p.category && r.id !== p.id).slice(0, 3));
+        const all = allPublished || [];
+        setAllPosts(all);
+        const found = all.find((p) => p.slug === slug);
+        if (!found) { setNotFound(true); return; }
+        setPost(found);
+        if (found.category) {
+          setRelated(all.filter((r) => r.category === found.category && r.id !== found.id).slice(0, 3));
         }
       })
+      .catch(() => setNotFound(true))
       .finally(() => setLoading(false));
   }, [slug]);
+
+  useSEO({
+    title: post ? `${post.seo_title || post.title} | FairValue Analysis` : 'FairValue Analysis',
+    description: post?.meta_description || post?.excerpt || '',
+    url: post ? `${window.location.origin}/blog/${post.slug}` : '',
+  });
 
   if (loading) return (
     <div className="min-h-screen bg-background flex items-center justify-center">
@@ -49,10 +82,9 @@ export default function BlogPost() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <div className="py-10 px-5">
+      <div className="pt-24 pb-10 px-5">
         <div className="max-w-6xl mx-auto">
 
-          {/* Back */}
           <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8">
             <ArrowLeft className="w-4 h-4" /> Back to Blog
           </Link>
@@ -91,7 +123,7 @@ export default function BlogPost() {
                 </p>
               )}
 
-              {/* Tags */}
+              {/* Category tag */}
               {post.category && (
                 <div className="flex flex-wrap gap-2 mt-5">
                   <span className="inline-flex items-center gap-1.5 bg-secondary/10 text-secondary text-xs font-semibold px-3 py-1 rounded-full border border-secondary/20">
@@ -110,19 +142,19 @@ export default function BlogPost() {
               )}
 
               {/* Body */}
-              <div
-                className="mt-10 blog-content"
-                dangerouslySetInnerHTML={{ __html: post.body }}
-              />
+              <div className="mt-10 blog-content" dangerouslySetInnerHTML={{ __html: post.body }} />
 
-              {/* Comment Form */}
+              {/* Comment / Enquiry Form */}
               <BlogCommentForm postTitle={post.title} />
 
               {/* CTA */}
               <div className="mt-12 bg-primary rounded-lg p-8 text-center">
                 <p className="text-xs font-bold uppercase tracking-widest text-secondary mb-3">Get Independent Advice</p>
                 <p className="text-lg sm:text-xl font-extrabold text-white leading-snug max-w-xl mx-auto">
-                  If you would like an independent review of your insurance claim valuation, get in touch with FairValue Analysis.
+                  If you would like an independent review of your insurance claim, contact us at{' '}
+                  <a href="mailto:hello@fairvalueanalysis.com" className="text-secondary hover:underline">
+                    hello@fairvalueanalysis.com
+                  </a>
                 </p>
                 <Button
                   asChild
@@ -148,7 +180,7 @@ export default function BlogPost() {
                 </div>
               )}
 
-            </div>{/* end main content */}
+            </div>
 
             {/* Sidebar */}
             <aside className="w-full lg:w-72 shrink-0">
@@ -157,7 +189,7 @@ export default function BlogPost() {
               </div>
             </aside>
 
-          </div>{/* end flex row */}
+          </div>
         </div>
       </div>
 

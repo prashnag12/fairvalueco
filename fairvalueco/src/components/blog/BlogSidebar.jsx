@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const INSURANCE_CATS = ['Insurance Claims', 'Total Loss', 'Diminished Value', 'Claim Negotiation'];
-const LITIGATION_CATS = ['Case Analysis', 'Legal Insights', 'Educational'];
+const CATEGORIES = ['Insurance Claims', 'Litigations'];
 
 function groupByMonth(items) {
   const map = {};
-  items
-    .slice()
+  [...items]
     .sort((a, b) => new Date(b.publish_date) - new Date(a.publish_date))
     .forEach((p) => {
       const label = p.publish_date
@@ -60,16 +58,19 @@ function Group({ title, items, currentSlug }) {
 }
 
 export default function BlogSidebar({ posts, currentSlug }) {
-  const insurance = posts.filter((p) => INSURANCE_CATS.includes(p.category));
-  const litigation = posts.filter((p) => LITIGATION_CATS.includes(p.category));
-  const other = posts.filter((p) => !INSURANCE_CATS.includes(p.category) && !LITIGATION_CATS.includes(p.category));
+  const byCat = CATEGORIES.map((cat) => ({
+    cat,
+    items: posts.filter((p) => p.category === cat),
+  }));
+  const other = posts.filter((p) => !CATEGORIES.includes(p.category));
 
   return (
     <div className="bg-muted border border-border rounded-lg p-5 space-y-6">
       <p className="text-sm font-extrabold text-primary">All Articles</p>
-      <Group title="Insurance" items={insurance} currentSlug={currentSlug} />
-      <Group title="Litigation" items={litigation} currentSlug={currentSlug} />
-      <Group title="Other" items={other} currentSlug={currentSlug} />
+      {byCat.map(({ cat, items }) => (
+        <Group key={cat} title={cat} items={items} currentSlug={currentSlug} />
+      ))}
+
     </div>
   );
 }

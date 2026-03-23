@@ -5,20 +5,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Edit2, Trash2, ArrowLeft, Eye, LogOut } from 'lucide-react';
+import { Plus, Edit2, Trash2, ArrowLeft, Eye, LogOut, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ReactQuill from 'react-quill';
+
+const CATEGORIES = ['Insurance Claims', 'Litigations'];
 
 const EMPTY = {
   title: '', slug: '', excerpt: '', body: '', category: '',
   featured_image: '', author: 'FairValue Analysis', publish_date: '',
   seo_title: '', meta_description: '', status: 'draft',
 };
-
-const CATEGORIES = [
-  'Insurance Claims', 'Total Loss', 'Diminished Value', 'Case Analysis',
-  'Claim Negotiation', 'Legal Insights', 'Educational',
-];
 
 function slugify(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -27,16 +24,21 @@ function slugify(text) {
 export default function BlogAdmin() {
   const { user } = useAuth();
   const [posts, setPosts] = useState([]);
-  const [editing, setEditing] = useState(null); // null = list, {} = form
+  const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
+  const [filterCat, setFilterCat] = useState('All');
+  const [filterStatus, setFilterStatus] = useState('All');
 
-  const load = () => base44.entities.BlogPost.list('-created_date', 100).then(setPosts);
+  const load = () => base44.entities.BlogPost.list('-created_date', 200).then(setPosts);
 
   useEffect(() => { load(); }, []);
 
-  const openNew = () => { setForm({ ...EMPTY, publish_date: new Date().toISOString().split('T')[0] }); setEditing('new'); };
-  const openEdit = (p) => { setForm(p); setEditing(p.id); };
+  const openNew = () => {
+    setForm({ ...EMPTY, publish_date: new Date().toISOString().split('T')[0] });
+    setEditing('new');
+  };
+  const openEdit = (p) => { setForm({ ...p }); setEditing(p.id); };
   const cancel = () => { setEditing(null); setForm(EMPTY); };
 
   const set = (key, val) => setForm((f) => {
@@ -46,6 +48,10 @@ export default function BlogAdmin() {
   });
 
   const save = async (status) => {
+    if (!form.title || !form.slug || !form.category) {
+      alert('Please fill in Title, Slug, and Category before saving.');
+      return;
+    }
     setSaving(true);
     const data = { ...form, status };
     if (editing === 'new') {
@@ -63,6 +69,12 @@ export default function BlogAdmin() {
     await base44.entities.BlogPost.delete(id);
     await load();
   };
+
+  const filtered = posts.filter((p) => {
+    const catOk = filterCat === 'All' || p.category === filterCat;
+    const statusOk = filterStatus === 'All' || p.status === filterStatus;
+    return catOk && statusOk;
+  });
 
   /* ── Form ── */
   if (editing !== null) return (
@@ -84,6 +96,17 @@ export default function BlogAdmin() {
             <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1 block">Slug *</label>
             <Input value={form.slug} onChange={(e) => set('slug', e.target.value)} placeholder="url-friendly-slug" />
           </div>
+
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1 block">Category *</label>
+            <Select value={form.category} onValueChange={(v) => set('category', v)}>
+              <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
+              <SelectContent>
+                {CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+
           <div>
             <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1 block">Excerpt</label>
             <Textarea value={form.excerpt} onChange={(e) => set('excerpt', e.target.value)} rows={2} placeholder="Short summary shown on blog listing..." />
@@ -95,35 +118,24 @@ export default function BlogAdmin() {
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1 block">Category</label>
-              <Select value={form.category} onValueChange={(v) => set('category', v)}>
-                <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
-                <SelectContent>
-                  {CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
               <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1 block">Author</label>
               <Input value={form.author} onChange={(e) => set('author', e.target.value)} />
             </div>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1 block">Publish Date</label>
               <Input type="date" value={form.publish_date} onChange={(e) => set('publish_date', e.target.value)} />
             </div>
-            <div>
-              <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1 block">Featured Image URL</label>
-              <Input value={form.featured_image} onChange={(e) => set('featured_image', e.target.value)} placeholder="https://..." />
-            </div>
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1 block">Featured Image URL</label>
+            <Input value={form.featured_image} onChange={(e) => set('featured_image', e.target.value)} placeholder="https://..." />
           </div>
 
           <div className="border-t border-border pt-5">
             <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">SEO</p>
             <div className="space-y-3">
-              <Input value={form.seo_title} onChange={(e) => set('seo_title', e.target.value)} placeholder="SEO Title (optional)" />
+              <Input value={form.seo_title} onChange={(e) => set('seo_title', e.target.value)} placeholder="SEO Title (optional – defaults to post title)" />
               <Textarea value={form.meta_description} onChange={(e) => set('meta_description', e.target.value)} rows={2} placeholder="Meta description (optional)" />
             </div>
           </div>
@@ -165,14 +177,42 @@ export default function BlogAdmin() {
           </div>
         </div>
 
-        {posts.length === 0 ? (
+        {/* Filters */}
+        <div className="flex flex-wrap gap-3 mb-6">
+          <div className="relative">
+            <select
+              value={filterCat}
+              onChange={(e) => setFilterCat(e.target.value)}
+              className="appearance-none border border-border rounded px-4 py-2 pr-8 text-sm font-medium text-primary bg-background focus:outline-none focus:border-secondary cursor-pointer"
+            >
+              <option value="All">All Categories</option>
+              {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+            </select>
+            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
+          </div>
+          <div className="relative">
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="appearance-none border border-border rounded px-4 py-2 pr-8 text-sm font-medium text-primary bg-background focus:outline-none focus:border-secondary cursor-pointer"
+            >
+              <option value="All">All Statuses</option>
+              <option value="published">Published</option>
+              <option value="draft">Draft</option>
+            </select>
+            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
+          </div>
+          <span className="text-xs text-muted-foreground self-center">{filtered.length} post{filtered.length !== 1 ? 's' : ''}</span>
+        </div>
+
+        {filtered.length === 0 ? (
           <div className="text-center py-20 border border-dashed border-border rounded-lg">
-            <p className="text-muted-foreground mb-4">No posts yet.</p>
-            <Button onClick={openNew} variant="outline">Create your first post</Button>
+            <p className="text-muted-foreground mb-4">{posts.length === 0 ? 'No posts yet.' : 'No posts match your filters.'}</p>
+            {posts.length === 0 && <Button onClick={openNew} variant="outline">Create your first post</Button>}
           </div>
         ) : (
           <div className="divide-y divide-border">
-            {posts.map((post) => (
+            {filtered.map((post) => (
               <div key={post.id} className="py-5 flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
