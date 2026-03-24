@@ -1,13 +1,86 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Calendar, Tag } from "lucide-react";
 import Navbar from "../components/landing/Navbar";
 import Footer from "../components/landing/Footer";
 import { blogs } from "@/data/blogs";
 
+const formatStructuredContent = (content) => {
+  if (!content) return "";
+
+  // If content already contains HTML headings/paragraphs, use it as-is
+  if (/<h\d|<p|<ul|<ol|<li/i.test(content)) {
+    return content;
+  }
+
+  const lines = content
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  let html = "";
+  let paragraphBuffer = [];
+
+  const flushParagraph = () => {
+    if (paragraphBuffer.length) {
+      html += `<p>${paragraphBuffer.join(" ")}</p>`;
+      paragraphBuffer = [];
+    }
+  };
+
+  lines.forEach((line) => {
+    // Main section headings like "Introduction" or "Key Takeaway"
+    if (/^(Introduction|Key Takeaway)$/i.test(line)) {
+      flushParagraph();
+      html += `<h2>${line}</h2>`;
+      return;
+    }
+
+    // Numbered headings like "1. Accepting the First Offer..."
+    if (/^\d+\.\s+/.test(line)) {
+      flushParagraph();
+      html += `<h2>${line}</h2>`;
+      return;
+    }
+
+    // Bullet points
+    if (/^-\s+/.test(line)) {
+      flushParagraph();
+
+      const existingUlOpen = html.endsWith("<ul>");
+      if (!existingUlOpen) {
+        html += "<ul>";
+      }
+
+      html += `<li>${line.replace(/^-\s+/, "")}</li>`;
+      return;
+    }
+
+    // Close list if next content is not a bullet
+    if (html.endsWith("</li>")) {
+      html += "</ul>";
+    }
+
+    paragraphBuffer.push(line);
+  });
+
+  flushParagraph();
+
+  // Close dangling ul if needed
+  if (html.endsWith("</li>")) {
+    html += "</ul>";
+  }
+
+  return html;
+};
+
 export default function BlogPost() {
   const { slug } = useParams();
   const post = blogs.find((item) => item.slug === slug);
+
+  const formattedContent = useMemo(() => {
+    return post ? formatStructuredContent(post.content) : "";
+  }, [post]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -127,28 +200,34 @@ export default function BlogPost() {
             <div
               className="
                 prose prose-lg max-w-none
-                prose-headings:text-primary
-                prose-h2:text-2xl
-                prose-h2:font-bold
-                prose-h2:mt-10
-                prose-h2:mb-4
-                prose-h2:border-b
-                prose-h2:border-slate-200
-                prose-h2:pb-2
-                prose-h3:text-xl
-                prose-h3:font-semibold
-                prose-h3:mt-8
                 prose-p:text-foreground
                 prose-p:leading-8
                 prose-p:mb-6
-                prose-ul:mt-4
-                prose-ul:mb-6
-                prose-li:mb-2
+
+                prose-h2:text-2xl
+                prose-h2:font-extrabold
+                prose-h2:text-primary
+                prose-h2:mt-12
+                prose-h2:mb-5
+                prose-h2:border-b
+                prose-h2:border-emerald-300
+                prose-h2:pb-2
+
+                prose-h3:text-xl
+                prose-h3:font-bold
+                prose-h3:text-primary
+                prose-h3:mt-8
+                prose-h3:mb-4
+
+                prose-ul:my-6
+                prose-li:my-2
+                prose-li:text-foreground
+
                 prose-strong:text-primary
                 prose-a:text-secondary
                 hover:prose-a:text-primary
               "
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: formattedContent }}
             />
           </div>
 
