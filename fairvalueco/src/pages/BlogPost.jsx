@@ -125,7 +125,29 @@ export default function BlogPost() {
 
           <div className="mt-10">
             <div
-              className="prose prose-lg max-w-none prose-headings:text-primary prose-p:text-foreground prose-p:leading-8 prose-a:text-secondary hover:prose-a:text-primary"
+              className="
+                prose prose-lg max-w-none
+                prose-headings:text-primary
+                prose-h2:text-2xl
+                prose-h2:font-bold
+                prose-h2:mt-10
+                prose-h2:mb-4
+                prose-h2:border-b
+                prose-h2:border-slate-200
+                prose-h2:pb-2
+                prose-h3:text-xl
+                prose-h3:font-semibold
+                prose-h3:mt-8
+                prose-p:text-foreground
+                prose-p:leading-8
+                prose-p:mb-6
+                prose-ul:mt-4
+                prose-ul:mb-6
+                prose-li:mb-2
+                prose-strong:text-primary
+                prose-a:text-secondary
+                hover:prose-a:text-primary
+              "
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
           </div>
