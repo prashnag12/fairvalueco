@@ -1,173 +1,155 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
-import { ArrowRight, Calendar, Tag, ChevronDown } from 'lucide-react';
-import Navbar from '../components/landing/Navbar';
-import Footer from '../components/landing/Footer';
-import BlogSidebar from '../components/blog/BlogSidebar';
+import React, { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { blogs } from "@/data/blogs";
 
-const CATEGORIES = ['Insurance Claims', 'Litigations'];
+const formatDisplayDate = (dateStr) => {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("en-AU", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+};
+
+const getMonthLabel = (dateStr) => {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("en-AU", {
+    month: "long",
+    year: "numeric",
+  });
+};
 
 export default function Blog() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [categoryFilter, setCategoryFilter] = useState('All');
-  const [monthFilter, setMonthFilter] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    base44.entities.BlogPost.filter({ status: 'published' }, '-publish_date', 100)
-      .then((data) => setPosts(data || []))
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
+  const sortedBlogs = useMemo(() => {
+    return [...blogs].sort((a, b) => new Date(b.date) - new Date(a.date));
   }, []);
 
-  const monthOptions = useMemo(() => {
-    const seen = new Set();
-    const months = [];
-    [...posts]
-      .sort((a, b) => new Date(b.publish_date) - new Date(a.publish_date))
-      .forEach((p) => {
-        if (!p.publish_date) return;
-        const label = new Date(p.publish_date).toLocaleDateString('en-AU', { month: 'long', year: 'numeric' });
-        if (!seen.has(label)) { seen.add(label); months.push(label); }
-      });
-    return months;
-  }, [posts]);
+  const categories = useMemo(() => {
+    return ["Insurance Claims", "Litigations"];
+  }, []);
 
-  const filtered = useMemo(() => {
-    return posts.filter((p) => {
-      const catOk = categoryFilter === 'All' || p.category === categoryFilter;
-      const monthOk = monthFilter === 'All' || (p.publish_date &&
-        new Date(p.publish_date).toLocaleDateString('en-AU', { month: 'long', year: 'numeric' }) === monthFilter);
-      return catOk && monthOk;
+  const months = useMemo(() => {
+    return [...new Set(sortedBlogs.map((post) => getMonthLabel(post.date)))];
+  }, [sortedBlogs]);
+
+  const filteredBlogs = useMemo(() => {
+    return sortedBlogs.filter((post) => {
+      const matchesCategory =
+        !selectedCategory || post.category === selectedCategory;
+      const matchesMonth =
+        !selectedMonth || getMonthLabel(post.date) === selectedMonth;
+
+      return matchesCategory && matchesMonth;
     });
-  }, [posts, categoryFilter, monthFilter]);
+  }, [sortedBlogs, selectedCategory, selectedMonth]);
+
+  const clearFilters = () => {
+    setSelectedCategory("");
+    setSelectedMonth("");
+  };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-
-      {/* Hero */}
-      <div className="bg-primary pt-24 pb-16 sm:pt-32 sm:pb-20 px-5">
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-xs font-bold uppercase tracking-widest text-secondary mb-3">Insights &amp; Analysis</p>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-            FairValue Analysis Blog
+    <div className="min-h-screen bg-white">
+      <div className="max-w-5xl mx-auto px-6 py-14">
+        <div className="mb-10">
+          <h1 className="text-4xl font-bold tracking-tight text-slate-900">
+            Blog
           </h1>
-          <p className="mt-4 text-base text-white/60 max-w-xl mx-auto">
-            Independent insights on insurance claims, case valuation, and how to protect your interests.
+          <p className="mt-3 text-slate-600 max-w-2xl leading-7">
+            Commentary, claim analysis, and general insights across insurance
+            claims and related disputes.
           </p>
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="py-14 px-5">
-        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-10 lg:gap-14 items-start">
-
-          {/* Main */}
-          <div className="flex-1 min-w-0">
-
-            {/* Filters */}
-            {!loading && !error && posts.length > 0 && (
-              <div className="flex flex-wrap gap-3 mb-10">
-                <div className="relative">
-                  <select
-                    value={categoryFilter}
-                    onChange={(e) => setCategoryFilter(e.target.value)}
-                    className="appearance-none border border-border rounded px-4 py-2 pr-8 text-sm font-medium text-primary bg-background focus:outline-none focus:border-secondary cursor-pointer"
-                  >
-                    <option value="All">All Categories</option>
-                    {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
-                  </select>
-                  <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
-                </div>
-                <div className="relative">
-                  <select
-                    value={monthFilter}
-                    onChange={(e) => setMonthFilter(e.target.value)}
-                    className="appearance-none border border-border rounded px-4 py-2 pr-8 text-sm font-medium text-primary bg-background focus:outline-none focus:border-secondary cursor-pointer"
-                  >
-                    <option value="All">All Months</option>
-                    {monthOptions.map((m) => <option key={m} value={m}>{m}</option>)}
-                  </select>
-                  <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
-                </div>
-                {(categoryFilter !== 'All' || monthFilter !== 'All') && (
-                  <button
-                    onClick={() => { setCategoryFilter('All'); setMonthFilter('All'); }}
-                    className="text-xs text-muted-foreground hover:text-primary transition-colors px-3 py-2 border border-border rounded"
-                  >
-                    Clear filters
-                  </button>
-                )}
-              </div>
-            )}
-
-            {loading ? (
-              <div className="flex justify-center py-20">
-                <div className="w-8 h-8 border-4 border-border border-t-primary rounded-full animate-spin" />
-              </div>
-            ) : error ? (
-              <div className="text-center py-20 border border-dashed border-border rounded-lg">
-                <p className="text-muted-foreground">Unable to load posts. Please try again later.</p>
-              </div>
-            ) : filtered.length === 0 ? (
-              <div className="text-center py-20 border border-dashed border-border rounded-lg">
-                <p className="text-muted-foreground">
-                  {posts.length === 0 ? 'No posts published yet.' : 'No posts match your filters.'}
-                </p>
-              </div>
-            ) : (
-              <div className="divide-y divide-border">
-                {filtered.map((post) => (
-                  <article key={post.id} className="py-10 group">
-                    <div className="flex flex-wrap items-center gap-3 mb-3">
-                      {post.category && (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-secondary">
-                          <Tag className="w-3 h-3" />{post.category}
-                        </span>
-                      )}
-                      {post.publish_date && (
-                        <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-                          <Calendar className="w-3 h-3" />
-                          {new Date(post.publish_date).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })}
-                        </span>
-                      )}
-                    </div>
-                    <h2 className="text-xl sm:text-2xl font-extrabold text-primary leading-snug group-hover:text-secondary transition-colors">
-                      <Link to={`/blog/${post.slug}`}>{post.title}</Link>
-                    </h2>
-                    {post.excerpt && (
-                      <p className="mt-3 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl">
-                        {post.excerpt}
-                      </p>
-                    )}
-                    <Link
-                      to={`/blog/${post.slug}`}
-                      className="inline-flex items-center gap-2 mt-5 text-sm font-semibold text-primary hover:text-secondary transition-colors"
-                    >
-                      Read More <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </article>
-                ))}
-              </div>
-            )}
+        <div className="grid gap-4 md:grid-cols-3 mb-10">
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              Category
+            </label>
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900"
+            >
+              <option value="">All categories</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
           </div>
 
-          {/* Sidebar */}
-          {!loading && posts.length > 0 && (
-            <aside className="w-full lg:w-72 shrink-0">
-              <div className="sticky top-24">
-                <BlogSidebar posts={posts} currentSlug={null} />
-              </div>
-            </aside>
-          )}
-        </div>
-      </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              Month
+            </label>
+            <select
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900"
+            >
+              <option value="">All months</option>
+              {months.map((month) => (
+                <option key={month} value={month}>
+                  {month}
+                </option>
+              ))}
+            </select>
+          </div>
 
-      <Footer />
+          <div className="flex items-end">
+            <button
+              onClick={clearFilters}
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-700 hover:bg-slate-50 transition"
+            >
+              Clear filters
+            </button>
+          </div>
+        </div>
+
+        {filteredBlogs.length === 0 ? (
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-8 text-slate-600">
+            No blog posts match the selected filters.
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {filteredBlogs.map((post) => (
+              <article
+                key={post.slug}
+                className="rounded-2xl border border-slate-200 p-6 hover:shadow-sm transition"
+              >
+                <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500 mb-3">
+                  <span>{formatDisplayDate(post.date)}</span>
+                  <span>•</span>
+                  <span>{post.category}</span>
+                </div>
+
+                <h2 className="text-2xl font-semibold text-slate-900 mb-3">
+                  <Link
+                    to={`/blog/${post.slug}`}
+                    className="hover:text-slate-700 transition"
+                  >
+                    {post.title}
+                  </Link>
+                </h2>
+
+                <p className="text-slate-600 leading-7 mb-4">{post.excerpt}</p>
+
+                <Link
+                  to={`/blog/${post.slug}`}
+                  className="inline-flex text-sm font-medium text-slate-900 hover:text-slate-700"
+                >
+                  Read more
+                </Link>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

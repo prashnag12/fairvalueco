@@ -1,199 +1,125 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
-import { ArrowLeft, Calendar, Tag } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Navbar from '../components/landing/Navbar';
-import Footer from '../components/landing/Footer';
-import BlogCommentForm from '../components/blog/BlogCommentForm';
-import BlogSidebar from '../components/blog/BlogSidebar';
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { blogs } from "@/data/blogs";
 
-function useSEO({ title, description, url }) {
-  useEffect(() => {
-    if (title) document.title = title;
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (!metaDesc) { metaDesc = document.createElement('meta'); metaDesc.name = 'description'; document.head.appendChild(metaDesc); }
-    if (description) metaDesc.content = description;
-
-    let ogTitle = document.querySelector('meta[property="og:title"]');
-    if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property', 'og:title'); document.head.appendChild(ogTitle); }
-    ogTitle.content = title || '';
-
-    let ogDesc = document.querySelector('meta[property="og:description"]');
-    if (!ogDesc) { ogDesc = document.createElement('meta'); ogDesc.setAttribute('property', 'og:description'); document.head.appendChild(ogDesc); }
-    ogDesc.content = description || '';
-
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
-    if (url) canonical.href = url;
-
-    return () => { document.title = 'FairValue Analysis'; };
-  }, [title, description, url]);
-}
+const formatDisplayDate = (dateStr) => {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("en-AU", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+};
 
 export default function BlogPost() {
   const { slug } = useParams();
-  const [post, setPost] = useState(null);
-  const [related, setRelated] = useState([]);
-  const [allPosts, setAllPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
+
+  const post = blogs.find((item) => item.slug === slug);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    setLoading(true);
-    setNotFound(false);
-    setPost(null);
-    base44.entities.BlogPost.filter({ status: 'published' }, '-publish_date', 100)
-      .then((allPublished) => {
-        const all = allPublished || [];
-        setAllPosts(all);
-        const found = all.find((p) => p.slug === slug);
-        if (!found) { setNotFound(true); return; }
-        setPost(found);
-        if (found.category) {
-          setRelated(all.filter((r) => r.category === found.category && r.id !== found.id).slice(0, 3));
-        }
-      })
-      .catch(() => setNotFound(true))
-      .finally(() => setLoading(false));
-  }, [slug]);
+    if (!post) {
+      document.title = "Blog post not found | FairValue Analysis";
 
-  useSEO({
-    title: post ? `${post.seo_title || post.title} | FairValue Analysis` : 'FairValue Analysis',
-    description: post?.meta_description || post?.excerpt || '',
-    url: post ? `${window.location.origin}/blog/${post.slug}` : '',
-  });
+      const metaDescriptionTag = document.querySelector(
+        'meta[name="description"]'
+      );
 
-  if (loading) return (
-    <div className="min-h-screen bg-background flex items-center justify-center">
-      <div className="w-8 h-8 border-4 border-border border-t-primary rounded-full animate-spin" />
-    </div>
-  );
+      if (metaDescriptionTag) {
+        metaDescriptionTag.setAttribute(
+          "content",
+          "The requested blog article could not be found on FairValue Analysis."
+        );
+      }
 
-  if (notFound || !post) return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-4">
-      <p className="text-lg font-semibold text-primary">Post not found.</p>
-      <Link to="/blog" className="text-sm text-secondary hover:underline">← Back to Blog</Link>
-    </div>
-  );
+      return;
+    }
 
-  return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
+    document.title =
+      post.seoTitle || `${post.title} | FairValue Analysis`;
 
-      <div className="pt-24 pb-10 px-5">
-        <div className="max-w-6xl mx-auto">
+    const metaDescription =
+      post.metaDescription || post.excerpt || "";
 
-          <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="w-4 h-4" /> Back to Blog
+    let metaDescriptionTag = document.querySelector(
+      'meta[name="description"]'
+    );
+
+    if (!metaDescriptionTag) {
+      metaDescriptionTag = document.createElement("meta");
+      metaDescriptionTag.setAttribute("name", "description");
+      document.head.appendChild(metaDescriptionTag);
+    }
+
+    metaDescriptionTag.setAttribute("content", metaDescription);
+  }, [post]);
+
+  if (!post) {
+    return (
+      <div className="min-h-screen bg-white">
+        <div className="max-w-4xl mx-auto px-6 py-16">
+          <Link
+            to="/blog"
+            className="inline-flex text-sm font-medium text-slate-700 hover:text-slate-900 mb-8"
+          >
+            ← Back to Blog
           </Link>
 
-          <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 items-start">
-
-            {/* Main Content */}
-            <div className="flex-1 min-w-0">
-
-              {/* Meta */}
-              <div className="flex flex-wrap items-center gap-3 mb-5">
-                {post.category && (
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-secondary">
-                    <Tag className="w-3 h-3" />{post.category}
-                  </span>
-                )}
-                {post.publish_date && (
-                  <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <Calendar className="w-3 h-3" />
-                    {new Date(post.publish_date).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })}
-                  </span>
-                )}
-                {post.author && (
-                  <span className="text-xs text-muted-foreground">by {post.author}</span>
-                )}
-              </div>
-
-              {/* Title */}
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary tracking-tight leading-tight">
-                {post.title}
-              </h1>
-
-              {post.excerpt && (
-                <p className="mt-4 text-base sm:text-lg text-muted-foreground leading-relaxed border-l-4 border-secondary pl-4">
-                  {post.excerpt}
-                </p>
-              )}
-
-              {/* Category tag */}
-              {post.category && (
-                <div className="flex flex-wrap gap-2 mt-5">
-                  <span className="inline-flex items-center gap-1.5 bg-secondary/10 text-secondary text-xs font-semibold px-3 py-1 rounded-full border border-secondary/20">
-                    <Tag className="w-3 h-3" />{post.category}
-                  </span>
-                </div>
-              )}
-
-              {/* Featured Image */}
-              {post.featured_image && (
-                <img
-                  src={post.featured_image}
-                  alt={post.title}
-                  className="mt-8 w-full rounded-lg object-cover max-h-72"
-                />
-              )}
-
-              {/* Body */}
-              <div className="mt-10 blog-content" dangerouslySetInnerHTML={{ __html: post.body }} />
-
-              {/* Comment / Enquiry Form */}
-              <BlogCommentForm postTitle={post.title} />
-
-              {/* CTA */}
-              <div className="mt-12 bg-primary rounded-lg p-8 text-center">
-                <p className="text-xs font-bold uppercase tracking-widest text-secondary mb-3">Get Independent Advice</p>
-                <p className="text-lg sm:text-xl font-extrabold text-white leading-snug max-w-xl mx-auto">
-                  If you would like an independent review of your insurance claim, contact us at{' '}
-                  <a href="mailto:hello@fairvalueanalysis.com" className="text-secondary hover:underline">
-                    hello@fairvalueanalysis.com
-                  </a>
-                </p>
-                <Button
-                  asChild
-                  className="mt-6 bg-secondary hover:bg-secondary/90 text-white font-semibold rounded px-8"
-                >
-                  <a href="/#contact">Request a Free Assessment</a>
-                </Button>
-              </div>
-
-              {/* Related Posts */}
-              {related.length > 0 && (
-                <div className="mt-16">
-                  <h3 className="text-lg font-extrabold text-primary mb-6">Related Articles</h3>
-                  <div className="grid sm:grid-cols-3 gap-5">
-                    {related.map((r) => (
-                      <Link key={r.id} to={`/blog/${r.slug}`} className="group block border border-border rounded-lg p-5 hover:border-secondary transition-colors">
-                        {r.category && <p className="text-xs font-semibold uppercase tracking-widest text-secondary mb-2">{r.category}</p>}
-                        <h4 className="text-sm font-bold text-primary leading-snug group-hover:text-secondary transition-colors">{r.title}</h4>
-                        {r.excerpt && <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{r.excerpt}</p>}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-            </div>
-
-            {/* Sidebar */}
-            <aside className="w-full lg:w-72 shrink-0">
-              <div className="sticky top-24">
-                <BlogSidebar posts={allPosts} currentSlug={slug} />
-              </div>
-            </aside>
-
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-8">
+            <h1 className="text-3xl font-bold text-slate-900 mb-3">
+              Blog post not found
+            </h1>
+            <p className="text-slate-600 leading-7">
+              The article you are looking for does not exist or may have been removed.
+            </p>
           </div>
         </div>
       </div>
+    );
+  }
 
-      <Footer />
+  return (
+    <div className="min-h-screen bg-white">
+      <article className="max-w-4xl mx-auto px-6 py-16">
+        <Link
+          to="/blog"
+          className="inline-flex text-sm font-medium text-slate-700 hover:text-slate-900 mb-8"
+        >
+          ← Back to Blog
+        </Link>
+
+        <div className="mb-6 flex flex-wrap items-center gap-3 text-sm text-slate-500">
+          <span>{formatDisplayDate(post.date)}</span>
+          <span>•</span>
+          <span>{post.category}</span>
+        </div>
+
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
+          {post.title}
+        </h1>
+
+        <p className="text-lg text-slate-600 leading-8 mb-10">
+          {post.excerpt}
+        </p>
+
+        <div
+          className="prose prose-slate max-w-none prose-p:leading-8 prose-p:text-slate-700 prose-headings:text-slate-900"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
+
+        <div className="mt-12 rounded-2xl border border-slate-200 bg-slate-50 p-6">
+          <p className="text-slate-800 leading-7">
+            If you would like an independent review of your insurance claim,
+            contact us at{" "}
+            <a
+              href="mailto:hello@fairvalueanalysis.com"
+              className="font-medium text-slate-900 underline underline-offset-4"
+            >
+              hello@fairvalueanalysis.com
+            </a>
+            .
+          </p>
+        </div>
+      </article>
     </div>
   );
 }
