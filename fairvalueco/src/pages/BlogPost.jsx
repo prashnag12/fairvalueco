@@ -57,7 +57,7 @@ export default function BlogPost() {
         <div className="max-w-3xl mx-auto">
           <Link
             to="/blog"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-white border border-emerald-600 px-3 py-1.5 rounded-  lg hover:bg-emerald-600 transition mb-8"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-800 transition mt-6 mb-6"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
