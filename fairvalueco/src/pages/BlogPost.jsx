@@ -73,37 +73,48 @@ export default function BlogPost() {
             </span>
           </div>
 
-          <h1 className="text-4xl font-extrabold text-slate-900 leading-tight">
+          <h1 className="text-[36px] font-extrabold text-slate-900 leading-tight">
             {post.title}
           </h1>
 
-          <p className="mt-5 text-lg text-gray-600">
+          <p className="mt-5 text-[19px] text-gray-600">
             {post.excerpt}
           </p>
 
-          {/* 🔥 FIXED CONTENT RENDER */}
           <div
             className="
-              mt-10 text-[17px] leading-8 text-slate-700
+              mt-10 text-[15.5px] leading-7 text-slate-700
 
-              [&_p]:mb-6
+              [&_p]:mb-5
 
-              [&_h2]:text-2xl
-              [&_h2]:font-extrabold
+              [&_h2]:text-[20px]
+              [&_h2]:font-semibold
               [&_h2]:text-slate-900
-              [&_h2]:mt-12
-              [&_h2]:mb-4
-              [&_h2]:pb-2
+              [&_h2]:mt-10
+              [&_h2]:mb-3
+              [&_h2]:pb-1.5
               [&_h2]:border-b
-              [&_h2]:border-emerald-400
+              [&_h2]:border-emerald-300
 
-              [&_ul]:pl-6
+              [&_h3]:text-[17px]
+              [&_h3]:font-semibold
+              [&_h3]:text-slate-900
+              [&_h3]:mt-6
+              [&_h3]:mb-2
+
+              [&_ul]:pl-5
               [&_ul]:list-disc
-              [&_ul]:my-6
+              [&_ul]:my-5
 
-              [&_li]:mb-2
+              [&_li]:mb-1.5
 
-              [&_strong]:font-semibold
+              [&_strong]:font-medium
+              [&_strong]:text-slate-900
+
+              [&_a]:text-emerald-600
+              [&_a]:underline
+              [&_a]:underline-offset-4
+              hover:[&_a]:text-emerald-800
             "
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
