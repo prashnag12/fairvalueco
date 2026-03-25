@@ -103,28 +103,11 @@ export default function BlogPost() {
 
       <article className="py-16 px-5">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-10">
-            <aside className="lg:sticky lg:top-24 self-start">
-              <div className="rounded-2xl border border-slate-200 bg-white p-5">
-                <Link
-                  to="/blog"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-800 transition mb-6"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  Back to Blogs
-                </Link>
-
-                <SidebarSection title="Claims" items={claimBlogs} />
-                <SidebarSection title="Legal Disputes" items={legalBlogs} />
-              </div>
-            </aside>
-
-            <div className="max-w-3xl">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-10 items-start">
+            <div className="order-1 lg:order-1 max-w-3xl w-full">
               <div className="flex flex-wrap items-center gap-4 mb-5">
                 <span className="text-xs font-semibold uppercase text-emerald-600">
-                  {post.category === "Litigations"
-                    ? "Legal Disputes"
-                    : "Claims"}
+                  {post.category === "Litigations" ? "Legal Disputes" : "Claims"}
                 </span>
 
                 <span className="text-xs text-gray-500">
@@ -136,7 +119,9 @@ export default function BlogPost() {
                 {post.title}
               </h1>
 
-              <p className="mt-5 text-[19px] text-gray-600">{post.excerpt}</p>
+              <p className="mt-5 text-[19px] text-gray-600">
+                {post.excerpt}
+              </p>
 
               <div
                 className="
@@ -178,8 +163,8 @@ export default function BlogPost() {
 
               <div className="mt-12 border p-6 rounded-xl">
                 <p>
-                  If you would like an independent review of your insurance
-                  claim, legal dispute, or valuation matter, contact us at{" "}
+                  If you would like an independent review of your insurance claim,
+                  dispute, or valuation matter, contact us at{" "}
                   <a
                     href="mailto:hello@fairvalueanalysis.com"
                     className="text-emerald-600 font-semibold"
@@ -189,6 +174,21 @@ export default function BlogPost() {
                 </p>
               </div>
             </div>
+
+            <aside className="order-2 lg:order-2 lg:sticky lg:top-24 self-start">
+              <div className="rounded-2xl border border-slate-200 bg-white p-5">
+                <Link
+                  to="/blog"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-800 transition mb-6"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  Back to Blogs
+                </Link>
+
+                <SidebarSection title="Claims" items={claimBlogs} />
+                <SidebarSection title="Legal Disputes" items={legalBlogs} />
+              </div>
+            </aside>
           </div>
         </div>
       </article>
