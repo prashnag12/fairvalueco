@@ -121,8 +121,7 @@ export default function BlogPost() {
 
           <div className="mt-12 border p-6 rounded-xl">
             <p>
-              If you would like an independent review of your insurance claim,
-              contact us at{" "}
+               If you would like an independent review of your insurance claim, legal dispute, or valuation matter, contact us at{" "}
               <a
                 href="mailto:hello@fairvalueanalysis.com"
                 className="text-emerald-600 font-semibold"
