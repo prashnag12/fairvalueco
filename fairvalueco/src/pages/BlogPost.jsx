@@ -103,7 +103,7 @@ export default function BlogPost() {
 
       <article className="py-16 px-5">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-[280px_minmax(0,1fr)] gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-10">
             <aside className="lg:sticky lg:top-24 self-start">
               <div className="rounded-2xl border border-slate-200 bg-white p-5">
                 <Link
