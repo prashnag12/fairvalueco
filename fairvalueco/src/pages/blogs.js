@@ -3,7 +3,7 @@ export const blogs = [
   {
   slug: "asic-v-westpac-analytical-reconstruction-financial-assumptions",
   title: "ASIC v Westpac (2019): An Analytical Reconstruction of Financial Assumptions in Lending Decisions",
-  category: "Litigation / Case Analysis",
+  category: "Litigations",
   date: "2026-03-29",
   excerpt: "An analytical reconstruction of ASIC v Westpac (2019), examining how benchmark-based financial assumptions impact model reliability and decision-making in lending.",
   seoTitle: "ASIC v Westpac Analysis: Financial Assumptions and Lending Models",
@@ -62,7 +62,7 @@ export const blogs = [
     <h2>Conclusion</h2>
     <p>This reconstruction treats the case as an example of model-based decision-making under uncertainty. The central issue is not the existence of assumptions, but how those assumptions are structured, tested, and understood. A disciplined analytical framework provides clarity on where models are robust and where they require further validation, supporting more informed decision-making in complex financial environments.</p>
   `,
-  },
+},
   {
   slug: "case-analysis-insurance-offer-undervalued",
   title: "Case Analysis: Insurance Offer vs Market Value — What Was Missed?",
