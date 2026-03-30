@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import Navbar from "../components/landing/Navbar";
@@ -8,16 +8,6 @@ import { blogs } from "@/data/blogs";
 export default function BlogPost() {
   const { slug } = useParams();
   const post = blogs.find((item) => item.slug === slug);
-
-  const [commentForm, setCommentForm] = useState({
-    name: "",
-    email: "",
-    comment: "",
-  });
-
-  const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState("");
-  const [error, setError] = useState("");
 
   const sortedBlogs = useMemo(() => {
     return [...blogs].sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -42,79 +32,28 @@ export default function BlogPost() {
     document.title = post.seoTitle || `${post.title} | FairValue Analysis`;
   }, [post]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCommentForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
-
-    if (!commentForm.name || !commentForm.email || !commentForm.comment) {
-      setError("Please fill all fields.");
-      return;
-    }
-
-    setSubmitting(true);
-
-    try {
-      const response = await fetch("https://formspree.io/f/xreyvyaa", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          full_name: commentForm.name,
-          email: commentForm.email,
-          phone: "",
-          dispute_type: "blog_comment",
-          estimated_claim_value: "",
-          case_summary: `
-Blog Comment Submission
-
-Blog Title: ${post.title}
-Blog URL: ${window.location.href}
-
-Message:
-${commentForm.comment}
-          `,
-        }),
-      });
-
-      if (response.ok) {
-        setSuccess("Thanks — your message has been sent.");
-        setCommentForm({
-          name: "",
-          email: "",
-          comment: "",
-        });
-      } else {
-        throw new Error();
-      }
-    } catch {
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   if (!post) {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="py-20 px-5">
           <div className="max-w-3xl mx-auto">
-            <Link to="/blog" className="mb-8 inline-flex items-center gap-2">
+            <Link
+              to="/blog"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-primary mb-8"
+            >
               <ArrowLeft className="w-4 h-4" />
               Back to Blog
             </Link>
-            <h1>Blog not found</h1>
+
+            <div className="rounded-2xl border border-border bg-card p-8">
+              <h1 className="text-3xl font-extrabold text-primary mb-3">
+                Blog post not found
+              </h1>
+              <p className="text-muted-foreground">
+                The article you are looking for does not exist.
+              </p>
+            </div>
           </div>
         </div>
         <Footer />
@@ -124,7 +63,7 @@ ${commentForm.comment}
 
   const SidebarSection = ({ title, items }) => (
     <div className="mb-8">
-      <h3 className="text-sm font-bold uppercase text-slate-900 mb-3">
+      <h3 className="text-sm font-bold uppercase tracking-wide text-slate-900 mb-3">
         {title}
       </h3>
       <div className="space-y-3">
@@ -135,13 +74,22 @@ ${commentForm.comment}
             <Link
               key={item.slug}
               to={`/blog/${item.slug}`}
-              className={`block rounded-lg border px-3 py-3 ${
+              className={`block rounded-lg border px-3 py-3 transition ${
                 isActive
                   ? "border-emerald-500 bg-emerald-50"
-                  : "border-slate-200 hover:bg-slate-50"
+                  : "border-slate-200 hover:border-emerald-300 hover:bg-slate-50"
               }`}
             >
-              <div className="text-sm font-medium">{item.title}</div>
+              <div
+                className={`text-sm font-medium leading-6 ${
+                  isActive ? "text-emerald-700" : "text-slate-800"
+                }`}
+              >
+                {item.title}
+              </div>
+              <div className="mt-1 text-xs text-slate-500">
+                {new Date(item.date).toLocaleDateString("en-AU")}
+              </div>
             </Link>
           );
         })}
@@ -156,30 +104,63 @@ ${commentForm.comment}
       <article className="py-16 px-5">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-10 items-start">
-            
-            {/* MAIN CONTENT */}
-            <div className="max-w-3xl w-full">
-              <h1 className="text-[36px] font-extrabold text-slate-900">
+            <div className="order-1 lg:order-1 max-w-3xl w-full">
+              <div className="flex flex-wrap items-center gap-4 mb-5">
+                <span className="text-xs font-semibold uppercase text-emerald-600">
+                  {post.category === "Litigations" ? "Legal Disputes" : "Claims"}
+                </span>
+
+                <span className="text-xs text-gray-500">
+                  {new Date(post.date).toLocaleDateString("en-AU")}
+                </span>
+              </div>
+
+              <h1 className="text-[36px] font-extrabold text-slate-900 leading-tight">
                 {post.title}
               </h1>
 
-              <p className="mt-4 text-gray-600">{post.excerpt}</p>
+              <p className="mt-5 text-[19px] text-gray-600">
+                {post.excerpt}
+              </p>
 
               <div
                 className="
                   mt-10 text-[15.5px] leading-7 text-slate-700
+
                   [&_p]:mb-5
+
                   [&_h2]:text-[20px]
                   [&_h2]:font-semibold
-                  [&_h2]:mt-8
+                  [&_h2]:text-slate-900
+                  [&_h2]:mt-10
                   [&_h2]:mb-3
+                  [&_h2]:pb-1.5
                   [&_h2]:border-b
                   [&_h2]:border-emerald-300
+
+                  [&_h3]:text-[17px]
+                  [&_h3]:font-semibold
+                  [&_h3]:text-slate-900
+                  [&_h3]:mt-6
+                  [&_h3]:mb-2
+
+                  [&_ul]:pl-5
+                  [&_ul]:list-disc
+                  [&_ul]:my-5
+
+                  [&_li]:mb-1.5
+
+                  [&_strong]:font-medium
+                  [&_strong]:text-slate-900
+
+                  [&_a]:text-emerald-600
+                  [&_a]:underline
+                  [&_a]:underline-offset-4
+                  hover:[&_a]:text-emerald-800
                 "
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
 
-              {/* CTA */}
               <div className="mt-12 border p-6 rounded-xl">
                 <p>
                   If you would like an independent review of your insurance claim,
@@ -192,57 +173,21 @@ ${commentForm.comment}
                   </a>
                 </p>
               </div>
-
-              {/* COMMENT FORM */}
-              <div className="mt-10 border p-6 rounded-xl">
-                <h2 className="text-lg font-semibold mb-2">
-                  Have a question or comment?
-                </h2>
-
-                <form onSubmit={handleSubmit} className="space-y-4 mt-4">
-                  <input
-                    name="name"
-                    value={commentForm.name}
-                    onChange={handleChange}
-                    placeholder="Name"
-                    className="w-full border p-2 rounded"
-                  />
-
-                  <input
-                    name="email"
-                    value={commentForm.email}
-                    onChange={handleChange}
-                    placeholder="Email"
-                    className="w-full border p-2 rounded"
-                  />
-
-                  <textarea
-                    name="comment"
-                    value={commentForm.comment}
-                    onChange={handleChange}
-                    placeholder="Your comment"
-                    className="w-full border p-2 rounded"
-                    rows={4}
-                  />
-
-                  {error && <p className="text-red-500">{error}</p>}
-                  {success && <p className="text-green-600">{success}</p>}
-
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="bg-emerald-600 text-white px-4 py-2 rounded"
-                  >
-                    {submitting ? "Sending..." : "Send Comment"}
-                  </button>
-                </form>
-              </div>
             </div>
 
-            {/* SIDEBAR */}
-            <aside className="lg:sticky lg:top-24">
-              <SidebarSection title="Claims" items={claimBlogs} />
-              <SidebarSection title="Legal Disputes" items={legalBlogs} />
+            <aside className="order-2 lg:order-2 lg:sticky lg:top-24 self-start">
+              <div className="rounded-2xl border border-slate-200 bg-white p-5">
+                <Link
+                  to="/blog"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-800 transition mb-6"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  Back to Blogs
+                </Link>
+
+                <SidebarSection title="Claims" items={claimBlogs} />
+                <SidebarSection title="Legal Disputes" items={legalBlogs} />
+              </div>
             </aside>
           </div>
         </div>
