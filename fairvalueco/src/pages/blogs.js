@@ -61,7 +61,7 @@ export const blogs = [
 
     <h2>Conclusion</h2>
     <p>This reconstruction treats the case as an example of model-based decision-making under uncertainty. The central issue is not the existence of assumptions, but how those assumptions are structured, tested, and understood. A disciplined analytical framework provides clarity on where models are robust and where they require further validation, supporting more informed decision-making in complex financial environments.</p>
-  `
+  `,
   },
   {
   slug: "case-analysis-insurance-offer-undervalued",
