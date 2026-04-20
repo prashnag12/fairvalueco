@@ -10,6 +10,9 @@ import HowItWorks from '../components/landing/HowItWorks';
 import SampleReports from '../components/landing/SampleReports';
 import MidPageCTA from '../components/landing/MidPageCTA';
 import ServicesDetail from '../components/landing/ServicesDetail';
+import TPDServiceOverview from '../components/landing/TPDServiceOverview';
+import TPDCaseStudy from '../components/landing/TPDCaseStudy';
+import TPDSampleReport from '../components/landing/TPDSampleReport';
 import InquiryForm from '../components/landing/InquiryForm';
 import Compliance from '../components/landing/Compliance';
 import FinalCTA from '../components/landing/FinalCTA';
@@ -29,6 +32,9 @@ export default function Home() {
       <SampleReports />
       <MidPageCTA />
       <ServicesDetail />
+      <TPDServiceOverview />
+      <TPDCaseStudy />
+      <TPDSampleReport />
       <InquiryForm />
       <Compliance />
       <FinalCTA />
