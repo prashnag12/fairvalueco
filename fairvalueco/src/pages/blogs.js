@@ -1,6 +1,6 @@
 export const blogs = [
   {
-  slug: "no-more-theoretical-jobs-tpd-2026",
+    slug: "no-more-theoretical-jobs-tpd-2026",
     title: "No More 'Theoretical Jobs': How the 2026 Bill Protects Your TPD Claim",
     category: "Insurance Claims",
     date: "2026-05-06",
@@ -27,11 +27,9 @@ export const blogs = [
 
       <h2>How FairValue Analysis Leverages the Bill</h2>
       <p>A structured approach to challenging these denials involves a Forensic Suitability Audit. This process identifies:</p>
-      <ul>
-        <li><strong>Cognitive Gaps:</strong> Where suggested roles ignore medically documented impairments in concentration or memory.</li>
-        <li><strong>Labor Market Realities:</strong> Where suggested jobs do not actually exist in the local market or violate physical medical restrictions.</li>
-        <li><strong>Training Deficiencies:</strong> Where the assessment assumes a transition to a technical role without the requisite certifications.</li>
-      </ul>
+      <p><strong>Cognitive Gaps:</strong> Where suggested roles ignore medically documented impairments in concentration or memory.</p>
+      <p><strong>Labour Market Realities:</strong> Where suggested jobs do not actually exist in the local market or violate physical medical restrictions.</p>
+      <p><strong>Training Deficiencies:</strong> Where the assessment assumes a transition to a technical role without the requisite certifications.</p>
 
       <h2>Key Takeaway</h2>
       <p>The 2026 legislation was designed to eliminate the information asymmetry that has historically kept payouts low. Where a TPD claim has been rejected based on "theoretical" jobs, the law now provides significant leverage for a challenge.</p>
@@ -40,44 +38,42 @@ export const blogs = [
     `,
   },
   {
-  slug: "case-analysis-insurance-offer-undervalued",
-  title: "Case Analysis: Insurance Offer vs Market Value — What Was Missed?",
-  category: "Insurance Claims",
-  date: "2026-03-25",
-  excerpt:
-    "A structured review of an insurance settlement offer that appeared reasonable but may not fully reflect market value.",
-  seoTitle:
-    "Case Analysis: Insurance Offer vs Market Value — What Was Missed? | FairValue Analysis",
-  metaDescription:
-    "A case-based analysis of an insurance settlement and where the valuation approach may fall short compared to market evidence.",
-  content: `
-    <p>In this case, the policyholder received a settlement offer that, on initial review, appeared aligned with general expectations. However, a closer examination of the valuation approach suggests that the figure may not fully reflect current market positioning.</p>
+    slug: "case-analysis-insurance-offer-undervalued",
+    title: "Case Analysis: Insurance Offer vs Market Value — What Was Missed?",
+    category: "Insurance Claims",
+    date: "2026-03-25",
+    excerpt:
+      "A structured review of an insurance settlement offer that appeared reasonable but may not fully reflect market value.",
+    seoTitle:
+      "Case Analysis: Insurance Offer vs Market Value — What Was Missed? | FairValue Analysis",
+    metaDescription:
+      "A case-based analysis of an insurance settlement and where the valuation approach may fall short compared to market evidence.",
+    content: `
+      <p>In this case, the policyholder received a settlement offer that, on initial review, appeared aligned with general expectations. However, a closer examination of the valuation approach suggests that the figure may not fully reflect current market positioning.</p>
 
-    <p>This type of scenario is common, where the offer is not obviously incorrect, but may still sit below a supportable range.</p>
+      <p>This type of scenario is common, where the offer is not obviously incorrect, but may still sit below a supportable range.</p>
 
-    <h2>What the Insurer Did</h2>
-    <p>The insurer appears to have relied on a standardised valuation process, likely supported by internal tools and selected comparable data. This approach provides efficiency and consistency, but may not always capture real-time market dynamics.</p>
+      <h2>What the Insurer Did</h2>
+      <p>The insurer appears to have relied on a standardised valuation process, likely supported by internal tools and selected comparable data. This approach provides efficiency and consistency, but may not always capture real-time market dynamics.</p>
 
-    <p>The resulting figure reflects a generalised view of value rather than a fully tailored assessment of the specific vehicle.</p>
+      <p>The resulting figure reflects a generalised view of value rather than a fully tailored assessment of the specific vehicle.</p>
 
-    <h2>Where the Valuation May Fall Short</h2>
-    <p>The primary concern in this case is the limited scope of comparable data. Where valuation relies on a narrow dataset, it may not fully represent the range of available market listings.</p>
+      <h2>Where the Valuation May Fall Short</h2>
+      <p>The primary concern in this case is the limited scope of comparable data. Where valuation relies on a narrow dataset, it may not fully represent the range of available market listings.</p>
 
-    <p>Additionally, there appears to be limited adjustment for vehicle-specific factors such as condition, specification, and local demand. These elements can materially influence value but are often simplified in standardised assessments.</p>
+      <p>Additionally, there appears to be limited adjustment for vehicle-specific factors such as condition, specification, and local demand. These elements can materially influence value but are often simplified in standardised assessments.</p>
 
-    <h2>What We Would Have Done Differently</h2>
-    <p>A more robust approach would involve a broader and more current set of comparable listings, with careful filtering to ensure like-for-like comparison. This would provide a clearer view of the true market range.</p>
+      <h2>What We Would Have Done Differently</h2>
+      <p>A more robust approach would involve a broader and more current set of comparable listings, with careful filtering to ensure like-for-like comparison. This would provide a clearer view of the true market range.</p>
 
-    <p>We would also apply structured adjustments for condition and specification, ensuring the valuation reflects the actual position of the vehicle immediately prior to loss.</p>
+      <p>We would also apply structured adjustments for condition and specification, ensuring the valuation reflects the actual position of the vehicle immediately prior to loss.</p>
 
-    <h2>Key Takeaway</h2>
-    <p>An insurance offer may appear reasonable while still being conservative. The difference often lies in the depth of market analysis and the treatment of vehicle-specific factors.</p>
+      <h2>Key Takeaway</h2>
+      <p>An insurance offer may appear reasonable while still being conservative. The difference often lies in the depth of market analysis and the treatment of vehicle-specific factors.</p>
 
-    <p>A structured, evidence-based review can help determine whether the offer reflects a fair market position or warrants further challenge.</p>
-  `,
+      <p>A structured, evidence-based review can help determine whether the offer reflects a fair market position or warrants further challenge.</p>
+    `,
   },
-
-
   {
     slug: "insurance-offer-too-low",
     title: "Insurance offered $12,400 — was it actually fair?",
