@@ -3,7 +3,7 @@ export const blogs = [
     slug: "no-more-theoretical-jobs-tpd-2026",
     title: "No More 'Theoretical Jobs': How the 2026 Bill Protects Your TPD Claim",
     category: "Insurance Claims",
-    date: "2026-05-06",
+    date: "2026-05-01",
     excerpt:
       "The Unfair Trading Practices Bill 2026 has fundamentally changed the landscape of TPD claims. Learn how to fight 'distorted choice' and theoretical job denials.",
     seoTitle:
