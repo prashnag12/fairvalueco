@@ -45,7 +45,7 @@ export default function LegalAICouncil() {
           <div className="relative max-w-7xl mx-auto px-6 sm:px-8 grid lg:grid-cols-[1.08fr_.92fr] gap-14 items-center">
             <div>
               <p className="text-secondary font-bold tracking-[0.18em] uppercase text-sm mb-6">For legal teams and law firms</p>
-              <h1 className="text-white text-4xl sm:text-6xl font-extrabold leading-[1.04] tracking-tight max-w-3xl">
+              <h1 className="text-white text-4xl sm:text-5xl font-extrabold leading-[1.04] tracking-tight max-w-3xl">
                 See the evidence gaps before they become legal problems.
               </h1>
               <p className="mt-7 text-slate-200 text-lg sm:text-xl leading-relaxed max-w-2xl">
