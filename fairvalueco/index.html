@@ -1,21 +1,45 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18446856126"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18446856126"></script>
 
-  gtag('config', 'AW-18446856126');
-</script>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="https://base44.com/logo_v2.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="manifest" href="/manifest.json" />
-    <title>FairValue Analysis</title>
-  </head>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'AW-18446856126');
+  </script>
+
+  <script>
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof url !== 'undefined') {
+          window.location = url;
+        }
+      };
+
+      gtag('event', 'conversion', {
+        send_to: 'AW-18446856126/gFFSCITpm_UcEL7fktxE',
+        value: 1.0,
+        currency: 'AUD',
+        event_callback: callback
+      });
+
+      return false;
+    }
+  </script>
+
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="https://base44.com/logo_v2.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="/manifest.json" />
+  <title>FairValue Analysis</title>
+</head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
