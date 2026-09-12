@@ -133,7 +133,21 @@ export default function LegalAICouncil() {
 
         <section className="py-20 sm:py-28 bg-primary"><div className="max-w-5xl mx-auto px-6 sm:px-8 text-center"><LockKeyhole className="mx-auto w-9 h-9 text-secondary" /><h2 className="mt-6 text-3xl sm:text-4xl font-extrabold text-white">Professional control remains at the centre.</h2><p className="mt-6 text-lg leading-relaxed text-slate-200 max-w-3xl mx-auto">FVA is designed to assist legal analysis, not replace legal judgment. Outputs are evidence-linked and reviewable, with deployment options that can be aligned to your firm’s confidentiality and data-control requirements.</p><div className="mt-9 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-semibold text-slate-200"><span className="inline-flex items-center gap-2"><Check className="w-4 h-4 text-secondary" /> Lawyer remains responsible</span><span className="inline-flex items-center gap-2"><Check className="w-4 h-4 text-secondary" /> Traceable outputs</span><span className="inline-flex items-center gap-2"><Check className="w-4 h-4 text-secondary" /> Private deployment options</span></div></div></section>
 
-        <section id="demo" className="py-20 sm:py-28 bg-white"><div className="max-w-4xl mx-auto px-6 sm:px-8 text-center"><p className="text-secondary font-bold tracking-[0.18em] uppercase text-sm">See it in your context</p><h2 className="mt-4 text-3xl sm:text-5xl font-extrabold tracking-tight">Book a private demonstration.</h2><p className="mt-6 text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">We can demonstrate the Council using a representative evidence-heavy matter and discuss whether a controlled evaluation is appropriate for your team.</p><a href="mailto:hello@fairvalueanalysis.com?subject=FVA%20Legal%20AI%20Council%20demonstration" className="mt-9 inline-flex items-center gap-2 rounded bg-secondary px-7 py-4 font-bold text-white hover:bg-secondary/90 transition-colors">Request a demonstration <ArrowRight className="w-4 h-4" /></a><p className="mt-5 text-sm text-slate-500">No commitment is required to arrange an initial discussion.</p></div></section>
+        <section id="demo" className="py-20 sm:py-28 bg-white"><div className="max-w-4xl mx-auto px-6 sm:px-8 text-center"><p className="text-secondary font-bold tracking-[0.18em] uppercase text-sm">See it in your context</p><h2 className="mt-4 text-3xl sm:text-5xl font-extrabold tracking-tight">Book a private demonstration.</h2><p className="mt-6 text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">We can demonstrate the Council using a representative evidence-heavy matter and discuss whether a controlled evaluation is appropriate for your team.</p><a
+  href="mailto:hello@fairvalueanalysis.com?subject=FVA%20Legal%20AI%20Council%20demonstration"
+  onClick={(event) => {
+    event.preventDefault();
+
+    if (typeof window.gtag_report_conversion === 'function') {
+      window.gtag_report_conversion(
+        'mailto:hello@fairvalueanalysis.com?subject=FVA%20Legal%20AI%20Council%20demonstration'
+      );
+    } else {
+      window.location.href =
+        'mailto:hello@fairvalueanalysis.com?subject=FVA%20Legal%20AI%20Council%20demonstration';
+    }
+  }}
+  className="mt-9 inline-flex items-center gap-2 rounded bg-secondary px-7 py-4 font-bold text-white hover:bg-secondary/90 transition-colors">Request a demonstration <ArrowRight className="w-4 h-4" /></a><p className="mt-5 text-sm text-slate-500">No commitment is required to arrange an initial discussion.</p></div></section>
 
         <section className="py-16 bg-slate-50"><div className="max-w-3xl mx-auto px-6 sm:px-8"><h2 className="text-2xl sm:text-3xl font-extrabold text-center">Frequently asked questions</h2><div className="mt-10 space-y-3">{faqs.map(([question,answer]) => <details key={question} className="group rounded-lg border border-slate-200 bg-white px-5"><summary className="flex cursor-pointer list-none items-center justify-between py-5 font-bold"><span>{question}</span><ChevronDown className="w-5 h-5 text-secondary transition-transform group-open:rotate-180" /></summary><p className="pb-5 pr-8 text-slate-600 leading-relaxed">{answer}</p></details>)}</div></div></section>
       </main>
