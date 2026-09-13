@@ -41,21 +41,21 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center gap-8">
           <button
             onClick={() => scrollTo('#home')}
-            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+            className="text-sm font-normal text-muted-foreground hover:text-primary transition-colors"
           >
             Home
           </button>
 
           <Link
             to="/legal-ai-council"
-            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+            className="text-sm font-normal text-muted-foreground hover:text-primary transition-colors"
           >
             Legal AI Council
           </Link>
 
           <Link
             to="/patent-analysis"
-            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+            className="text-sm font-normal text-muted-foreground hover:text-primary transition-colors"
           >
             Patent Analysis
           </Link>
@@ -64,7 +64,7 @@ export default function Navbar() {
             <button
               key={link.href}
               onClick={() => scrollTo(link.href)}
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              className="text-sm font-normal text-muted-foreground hover:text-primary transition-colors"
             >
               {link.label}
             </button>
@@ -72,7 +72,7 @@ export default function Navbar() {
 
           <Link
             to="/blog"
-            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+            className="text-sm font-normal text-muted-foreground hover:text-primary transition-colors"
           >
             Blog
           </Link>
@@ -117,7 +117,7 @@ export default function Navbar() {
           <div className="px-5 py-6 flex flex-col gap-4">
             <button
               onClick={() => scrollTo('#home')}
-              className="text-left text-base font-medium text-primary hover:text-secondary transition-colors"
+              className="text-left text-base font-normal text-primary hover:text-secondary transition-colors"
             >
               Home
             </button>
@@ -125,7 +125,7 @@ export default function Navbar() {
             <Link
               to="/legal-ai-council"
               onClick={() => setMobileOpen(false)}
-              className="text-left text-base font-medium text-primary hover:text-secondary transition-colors"
+              className="text-left text-base font-normal text-primary hover:text-secondary transition-colors"
             >
               Legal AI Council
             </Link>
@@ -133,7 +133,7 @@ export default function Navbar() {
             <Link
               to="/patent-analysis"
               onClick={() => setMobileOpen(false)}
-              className="text-left text-base font-medium text-primary hover:text-secondary transition-colors"
+              className="text-left text-base font-normal text-primary hover:text-secondary transition-colors"
             >
               Patent Analysis
             </Link>
@@ -142,7 +142,7 @@ export default function Navbar() {
               <button
                 key={link.href}
                 onClick={() => scrollTo(link.href)}
-                className="text-left text-base font-medium text-primary hover:text-secondary transition-colors"
+                className="text-left text-base font-normal text-primary hover:text-secondary transition-colors"
               >
                 {link.label}
               </button>
@@ -151,7 +151,7 @@ export default function Navbar() {
             <Link
               to="/blog"
               onClick={() => setMobileOpen(false)}
-              className="text-left text-base font-medium text-primary hover:text-secondary transition-colors"
+              className="text-left text-base font-normal text-primary hover:text-secondary transition-colors"
             >
               Blog
             </Link>
