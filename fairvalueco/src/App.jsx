@@ -13,6 +13,7 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import BlogAdmin from './pages/BlogAdmin';
 import LegalAICouncil from './pages/LegalAICouncil';
+import PatentAnalysis from './pages/PatentAnalysis';
 // Add page imports here
 
 const AdminRoute = ({ children }) => {
@@ -54,6 +55,7 @@ const AuthenticatedApp = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/legal-ai-council" element={<LegalAICouncil />} />
+      <Route path="/patent-analysis" element={<PatentAnalysis />} />
       <Route path="/sample-uplift-report" element={<SampleUpliftReport />} />
       <Route path="/sample-case-analysis" element={<SampleCaseAnalysis />} />
       <Route path="/sample-lawyer-brief" element={<SampleLawyerBrief />} />
