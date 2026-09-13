@@ -31,14 +31,20 @@ const capabilities = [
 
 export default function PatentAnalysis() {
   const [isDemoFormOpen, setIsDemoFormOpen] = useState(false);
+  const [selectedModule, setSelectedModule] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formError, setFormError] = useState('');
 
   const openDemoForm = () => {
+    setSelectedModule(null);
     setSubmitted(false);
     setFormError('');
     setIsDemoFormOpen(true);
+  };
+
+  const openModuleInfo = (module) => {
+    setSelectedModule(module);
   };
 
   const handleDemoSubmit = async (event) => {
@@ -108,7 +114,7 @@ export default function PatentAnalysis() {
               <div className="mt-9 flex flex-col sm:flex-row gap-4">
                 <button
                   type="button"
-                  onClick={openDemoForm}
+                  onClick={() => openModuleInfo('patent')}
                   className="inline-flex items-center justify-center gap-2 rounded bg-secondary px-6 py-3.5 font-bold text-white hover:bg-secondary/90 transition-colors"
                 >
                   Arrange a private demonstration
@@ -116,10 +122,10 @@ export default function PatentAnalysis() {
                 </button>
 
                 <a
-                  href="#capabilities"
+                  href="#modules"
                   className="inline-flex items-center justify-center rounded border border-white/30 px-6 py-3.5 font-semibold text-white hover:bg-white/10 transition-colors"
                 >
-                  Explore Patent Analysis
+                  Explore the modules
                 </a>
               </div>
 
@@ -188,7 +194,7 @@ export default function PatentAnalysis() {
           </div>
         </section>
 
-        <section className="py-20 sm:py-28 bg-white">
+        <section id="modules" className="py-20 sm:py-28 bg-white">
           <div className="max-w-7xl mx-auto px-6 sm:px-8">
             <div className="max-w-2xl">
               <p className="text-secondary font-bold tracking-[0.18em] uppercase text-sm">
@@ -219,16 +225,17 @@ export default function PatentAnalysis() {
                 </p>
 
                 <p className="mt-4 text-slate-600 leading-relaxed">
-                  Organise your invention, identify potentially relevant technical disclosures and prepare for the questions a patent professional may need to assess. Invention Intelligence helps you approach the next conversation with greater clarity. It does not provide a legal opinion or determine whether an invention is patentable.
+                  Organise your invention, identify potentially relevant technical disclosures and prepare for the questions a patent professional may need to assess.
                 </p>
 
-                <a
-                  href="mailto:hello@fairvalueanalysis.com?subject=FVA%20Invention%20Intelligence%20enquiry"
+                <button
+                  type="button"
+                  onClick={() => openModuleInfo('invention')}
                   className="mt-7 inline-flex items-center gap-2 font-bold text-secondary hover:text-primary transition-colors"
                 >
                   Learn about Invention Intelligence
                   <ArrowRight className="w-4 h-4" />
-                </a>
+                </button>
               </article>
 
               <article className="rounded-2xl border border-slate-200 bg-white p-7 sm:p-9 shadow-sm">
@@ -249,15 +256,15 @@ export default function PatentAnalysis() {
                 </p>
 
                 <p className="mt-4 text-slate-600 leading-relaxed">
-                  Support claim analysis, prior-art review, claim-to-reference mapping, evidence-gap identification and reasoning traces through a reviewable workflow. The patent professional remains responsible for verification, legal interpretation and the final assessment.
+                  Support claim analysis, prior-art review, claim-to-reference mapping, evidence-gap identification and reasoning traces through a reviewable workflow.
                 </p>
 
                 <button
                   type="button"
-                  onClick={openDemoForm}
+                  onClick={() => openModuleInfo('patent')}
                   className="mt-7 inline-flex items-center gap-2 font-bold text-secondary hover:text-primary transition-colors"
                 >
-                  Request a Patent AI Council demonstration
+                  Learn about Patent AI Council
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </article>
@@ -353,12 +360,12 @@ export default function PatentAnalysis() {
             </h2>
 
             <p className="mt-6 text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-              We can demonstrate Patent AI Council using a representative invention or prior-art matter and discuss whether a controlled evaluation is appropriate for your team.
+              We can demonstrate the relevant module using a representative invention or prior-art matter and discuss whether a controlled evaluation is appropriate for your team.
             </p>
 
             <button
               type="button"
-              onClick={openDemoForm}
+              onClick={() => openModuleInfo('patent')}
               className="mt-9 inline-flex items-center gap-2 rounded bg-secondary px-7 py-4 font-bold text-white hover:bg-secondary/90 transition-colors"
             >
               Request a demonstration
@@ -367,6 +374,96 @@ export default function PatentAnalysis() {
           </div>
         </section>
       </main>
+
+      {selectedModule && (
+        <div
+          className="fixed inset-0 z-[55] flex items-center justify-center bg-primary/70 px-5 py-8"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="module-info-title"
+        >
+          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-7 shadow-2xl sm:p-10">
+            <button
+              type="button"
+              onClick={() => setSelectedModule(null)}
+              className="absolute right-5 top-4 text-2xl leading-none text-slate-400 hover:text-primary"
+              aria-label="Close module information"
+            >
+              ×
+            </button>
+
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-secondary">
+              FVA Patent Analysis
+            </p>
+
+            <h2
+              id="module-info-title"
+              className="mt-3 text-3xl font-extrabold text-primary"
+            >
+              {selectedModule === 'invention'
+                ? 'Invention Intelligence'
+                : 'Patent AI Council'}
+            </h2>
+
+            {selectedModule === 'invention' ? (
+              <>
+                <p className="mt-4 text-lg font-semibold text-primary">
+                  For inventors, founders and research teams preparing for the next patent conversation.
+                </p>
+
+                <p className="mt-4 text-slate-600 leading-relaxed">
+                  Invention Intelligence helps you organise an invention before approaching a patent lawyer. It provides a structured way to describe the technical concept, identify relevant features, consider potentially related technical disclosures and record the questions that may require professional assessment.
+                </p>
+
+                <p className="mt-4 text-slate-600 leading-relaxed">
+                  The purpose is preparation and clarity. It helps an inventor understand what information may be relevant, where evidence is incomplete and what to discuss with a patent professional.
+                </p>
+
+                <p className="mt-4 text-sm text-slate-500 leading-relaxed">
+                  Invention Intelligence does not provide a legal opinion or determine whether an invention is patentable.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="mt-4 text-lg font-semibold text-primary">
+                  For patent attorneys and patent professionals conducting structured analysis.
+                </p>
+
+                <p className="mt-4 text-slate-600 leading-relaxed">
+                  Patent AI Council supports a reviewable workflow for claim analysis, prior-art examination, claim-to-reference mapping, evidence-gap identification and reasoning trace development.
+                </p>
+
+                <p className="mt-4 text-slate-600 leading-relaxed">
+                  It is designed to help patent professionals organise complex technical evidence, compare analytical perspectives and identify matters requiring further review.
+                </p>
+
+                <p className="mt-4 text-sm text-slate-500 leading-relaxed">
+                  The patent professional remains responsible for verification, legal interpretation and the final assessment.
+                </p>
+              </>
+            )}
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={openDemoForm}
+                className="inline-flex items-center justify-center gap-2 rounded bg-secondary px-6 py-3.5 font-bold text-white hover:bg-secondary/90 transition-colors"
+              >
+                Request a demonstration
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedModule(null)}
+                className="rounded border border-slate-300 px-6 py-3.5 font-semibold text-primary hover:bg-slate-50"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {isDemoFormOpen && (
         <div
@@ -475,10 +572,7 @@ export default function PatentAnalysis() {
 
                   <label className="block text-sm font-semibold text-slate-700">
                     Message
-                    <span className="font-normal text-slate-400">
-                      {' '}
-                      (optional)
-                    </span>
+                    <span className="font-normal text-slate-400"> (optional)</span>
 
                     <textarea
                       name="message"
