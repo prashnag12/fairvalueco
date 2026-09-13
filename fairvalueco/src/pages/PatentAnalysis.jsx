@@ -94,15 +94,15 @@ export default function PatentAnalysis() {
           <div className="relative max-w-7xl mx-auto px-6 sm:px-8 grid lg:grid-cols-[1.08fr_.92fr] gap-14 items-center">
             <div>
               <p className="text-secondary font-bold tracking-[0.18em] uppercase text-sm mb-6">
-                For patent professionals and research teams
+                Patent analysis for inventors and patent professionals
               </p>
 
               <h1 className="text-white text-4xl sm:text-5xl font-extrabold leading-[1.06] tracking-tight max-w-3xl">
-                Bring structure and traceability to patent analysis.
+                Understand where an invention stands before the next patent decision.
               </h1>
 
               <p className="mt-7 text-slate-200 text-base sm:text-lg leading-relaxed max-w-2xl">
-                FVA Patent AI Council helps patent attorneys, universities and innovation teams organise technical evidence, examine prior art and prepare a clearer, reviewable basis for professional assessment.
+                FairValue Analysis provides two complementary modules: Invention Intelligence for inventors preparing to approach a patent lawyer, and Patent AI Council for patent professionals conducting structured, evidence-linked analysis.
               </p>
 
               <div className="mt-9 flex flex-col sm:flex-row gap-4">
@@ -135,6 +135,7 @@ export default function PatentAnalysis() {
                     <p className="text-xs font-bold uppercase tracking-widest text-secondary">
                       Patent analysis
                     </p>
+
                     <p className="mt-1 text-lg font-bold text-primary">
                       Review overview
                     </p>
@@ -188,25 +189,78 @@ export default function PatentAnalysis() {
         </section>
 
         <section className="py-20 sm:py-28 bg-white">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 grid lg:grid-cols-[.8fr_1.2fr] gap-14">
-            <div>
+          <div className="max-w-7xl mx-auto px-6 sm:px-8">
+            <div className="max-w-2xl">
               <p className="text-secondary font-bold tracking-[0.18em] uppercase text-sm">
-                The challenge
+                Two modules, two audiences
               </p>
 
-              <h2 className="mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
-                Patent analysis requires more than finding similar documents.
+              <h2 className="mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight">
+                Choose the right level of patent analysis for your work.
               </h2>
             </div>
 
-            <div className="text-lg text-slate-600 leading-relaxed space-y-5">
-              <p>
-                Patent and invention assessments require careful examination of claims, technical disclosures, reference relationships and the evidence supporting each conclusion.
-              </p>
+            <div className="mt-12 grid lg:grid-cols-2 gap-6">
+              <article className="rounded-2xl border border-slate-200 bg-slate-50 p-7 sm:p-9">
+                <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center">
+                  <Lightbulb className="w-6 h-6 text-secondary" />
+                </div>
 
-              <p>
-                FVA helps organise that work into a reviewable workflow, so professionals can see what the evidence supports, where distinctions arise and what still requires expert assessment.
-              </p>
+                <p className="mt-7 text-sm font-bold uppercase tracking-[0.16em] text-secondary">
+                  For inventors and research teams
+                </p>
+
+                <h3 className="mt-3 text-2xl font-extrabold text-primary">
+                  Invention Intelligence
+                </h3>
+
+                <p className="mt-4 text-lg font-semibold text-primary">
+                  Understand where your invention stands before approaching a patent lawyer.
+                </p>
+
+                <p className="mt-4 text-slate-600 leading-relaxed">
+                  Organise your invention, identify potentially relevant technical disclosures and prepare for the questions a patent professional may need to assess. Invention Intelligence helps you approach the next conversation with greater clarity. It does not provide a legal opinion or determine whether an invention is patentable.
+                </p>
+
+                <a
+                  href="mailto:hello@fairvalueanalysis.com?subject=FVA%20Invention%20Intelligence%20enquiry"
+                  className="mt-7 inline-flex items-center gap-2 font-bold text-secondary hover:text-primary transition-colors"
+                >
+                  Learn about Invention Intelligence
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </article>
+
+              <article className="rounded-2xl border border-slate-200 bg-white p-7 sm:p-9 shadow-sm">
+                <div className="h-12 w-12 rounded-xl bg-primary flex items-center justify-center">
+                  <Scale className="w-6 h-6 text-secondary" />
+                </div>
+
+                <p className="mt-7 text-sm font-bold uppercase tracking-[0.16em] text-secondary">
+                  For patent lawyers and patent professionals
+                </p>
+
+                <h3 className="mt-3 text-2xl font-extrabold text-primary">
+                  Patent AI Council
+                </h3>
+
+                <p className="mt-4 text-lg font-semibold text-primary">
+                  A structured AI-assisted analysis layer for professional patent review.
+                </p>
+
+                <p className="mt-4 text-slate-600 leading-relaxed">
+                  Support claim analysis, prior-art review, claim-to-reference mapping, evidence-gap identification and reasoning traces through a reviewable workflow. The patent professional remains responsible for verification, legal interpretation and the final assessment.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={openDemoForm}
+                  className="mt-7 inline-flex items-center gap-2 font-bold text-secondary hover:text-primary transition-colors"
+                >
+                  Request a Patent AI Council demonstration
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </article>
             </div>
           </div>
         </section>
