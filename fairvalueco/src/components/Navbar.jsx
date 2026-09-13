@@ -44,7 +44,7 @@ export default function Navbar() {
           <Link to="/blog" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
             Blog
           </Link>
-          <Link to="/legal-ai-council" className="text-sm font-semibold text-primary hover:text-secondary transition-colors">
+          <Link to="/legal-ai-council" className="text-sm font-medium text-muted-foreground hover:text-secondary transition-colors">
             Legal AI Council
           </Link>
           <Button
@@ -90,7 +90,7 @@ export default function Navbar() {
             <Link
               to="/legal-ai-council"
               onClick={() => setMobileOpen(false)}
-              className="text-left text-base font-semibold text-primary hover:text-secondary transition-colors"
+              className="text-left text-base font-medium text-muted-foreground hover:text-secondary transition-colors"
             >
               Legal AI Council
             </Link>
