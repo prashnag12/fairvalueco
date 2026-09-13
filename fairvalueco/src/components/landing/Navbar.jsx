@@ -94,6 +94,12 @@ export default function Navbar() {
             >
               Legal AI Council
             </Link>
+            <Link
+              to="/patent-analysis"
+               className="text-sm font-semibold text-primary hover:text-secondary transition-colors"
+            >
+              Patent Analysis
+            </Link>
             <Button
               onClick={() => scrollTo('#contact')}
               className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold mt-2 rounded"
