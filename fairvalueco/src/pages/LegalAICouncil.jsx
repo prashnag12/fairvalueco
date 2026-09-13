@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Check, ChevronDown, FileSearch, LockKeyhole, Scale, ShieldCheck, Sparkles, Workflow } from 'lucide-react';
 import Navbar from '../components/landing/Navbar';
@@ -35,6 +35,45 @@ const faqs = [
 ];
 
 export default function LegalAICouncil() {
+    const [isDemoFormOpen, setIsDemoFormOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [formError, setFormError] = useState('');
+
+  const handleDemoSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setFormError('');
+
+    const form = event.currentTarget;
+
+    try {
+      const response = await fetch('https://formspree.io/f/xreyvyaa', {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Submission failed');
+      }
+
+      if (typeof window.gtag_report_conversion === 'function') {
+        window.gtag_report_conversion();
+      }
+
+      form.reset();
+      setSubmitted(true);
+    } catch {
+      setFormError(
+        'We could not submit your enquiry. Please try again or email hello@fairvalueanalysis.com.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-white text-primary">
       <Navbar />
@@ -133,25 +172,97 @@ export default function LegalAICouncil() {
 
         <section className="py-20 sm:py-28 bg-primary"><div className="max-w-5xl mx-auto px-6 sm:px-8 text-center"><LockKeyhole className="mx-auto w-9 h-9 text-secondary" /><h2 className="mt-6 text-3xl sm:text-4xl font-extrabold text-white">Professional control remains at the centre.</h2><p className="mt-6 text-lg leading-relaxed text-slate-200 max-w-3xl mx-auto">FVA is designed to assist legal analysis, not replace legal judgment. Outputs are evidence-linked and reviewable, with deployment options that can be aligned to your firm’s confidentiality and data-control requirements.</p><div className="mt-9 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-semibold text-slate-200"><span className="inline-flex items-center gap-2"><Check className="w-4 h-4 text-secondary" /> Lawyer remains responsible</span><span className="inline-flex items-center gap-2"><Check className="w-4 h-4 text-secondary" /> Traceable outputs</span><span className="inline-flex items-center gap-2"><Check className="w-4 h-4 text-secondary" /> Private deployment options</span></div></div></section>
 
-        <section id="demo" className="py-20 sm:py-28 bg-white"><div className="max-w-4xl mx-auto px-6 sm:px-8 text-center"><p className="text-secondary font-bold tracking-[0.18em] uppercase text-sm">See it in your context</p><h2 className="mt-4 text-3xl sm:text-5xl font-extrabold tracking-tight">Book a private demonstration.</h2><p className="mt-6 text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">We can demonstrate the Council using a representative evidence-heavy matter and discuss whether a controlled evaluation is appropriate for your team.</p><a
-  href="mailto:hello@fairvalueanalysis.com?subject=FVA%20Legal%20AI%20Council%20demonstration"
-  onClick={(event) => {
-    event.preventDefault();
-
-    if (typeof window.gtag_report_conversion === 'function') {
-      window.gtag_report_conversion(
-        'mailto:hello@fairvalueanalysis.com?subject=FVA%20Legal%20AI%20Council%20demonstration'
-      );
-    } else {
-      window.location.href =
-        'mailto:hello@fairvalueanalysis.com?subject=FVA%20Legal%20AI%20Council%20demonstration';
-    }
+        <section id="demo" className="py-20 sm:py-28 bg-white"><div className="max-w-4xl mx-auto px-6 sm:px-8 text-center"><p className="text-secondary font-bold tracking-[0.18em] uppercase text-sm">See it in your context</p><h2 className="mt-4 text-3xl sm:text-5xl font-extrabold tracking-tight">Book a private demonstration.</h2><p className="mt-6 text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">We can demonstrate the Council using a representative evidence-heavy matter and discuss whether a controlled evaluation is appropriate for your team.</p><button
+  type="button"
+  onClick={() => {
+    setSubmitted(false);
+    setFormError('');
+    setIsDemoFormOpen(true);
   }}
-  className="mt-9 inline-flex items-center gap-2 rounded bg-secondary px-7 py-4 font-bold text-white hover:bg-secondary/90 transition-colors">Request a demonstration <ArrowRight className="w-4 h-4" /></a><p className="mt-5 text-sm text-slate-500">No commitment is required to arrange an initial discussion.</p></div></section>
+  className="mt-9 inline-flex items-center gap-2 rounded bg-secondary px-7 py-4 font-bold text-white hover:bg-secondary/90 transition-colors"
+>
+  Request a demonstration
+  <ArrowRight className="w-4 h-4" />
+</button>
+  <p className="mt-5 text-sm text-slate-500">No commitment is required to arrange an initial discussion.</p></div></section>
 
         <section className="py-16 bg-slate-50"><div className="max-w-3xl mx-auto px-6 sm:px-8"><h2 className="text-2xl sm:text-3xl font-extrabold text-center">Frequently asked questions</h2><div className="mt-10 space-y-3">{faqs.map(([question,answer]) => <details key={question} className="group rounded-lg border border-slate-200 bg-white px-5"><summary className="flex cursor-pointer list-none items-center justify-between py-5 font-bold"><span>{question}</span><ChevronDown className="w-5 h-5 text-secondary transition-transform group-open:rotate-180" /></summary><p className="pb-5 pr-8 text-slate-600 leading-relaxed">{answer}</p></details>)}</div></div></section>
       </main>
       <Footer />
+      {isDemoFormOpen && (
+  <div
+    className="fixed inset-0 z-[60] flex items-center justify-center bg-primary/70 px-5 py-8"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="demo-form-title"
+  >
+    <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
+      <button
+        type="button"
+        onClick={() => setIsDemoFormOpen(false)}
+        className="absolute right-5 top-4 text-2xl leading-none text-slate-400 hover:text-primary"
+        aria-label="Close demonstration form"
+      >
+        ×
+      </button>
+
+      {submitted ? (
+        <div className="py-10 text-center">
+          <h2 className="text-2xl font-extrabold text-primary">
+            Thank you for your enquiry.
+          </h2>
+
+          <p className="mt-3 text-slate-600">
+            We have received your details and will be in touch to arrange a demonstration.
+          </p>
+
+          <button
+            type="button"
+            onClick={() => setIsDemoFormOpen(false)}
+            className="mt-7 rounded bg-primary px-6 py-3 font-semibold text-white"
+          >
+            Close
+          </button>
+        </div>
+      ) : (
+        <>
+          <p className="text-sm font-bold uppercase tracking-[0.18em] text-secondary">
+            FVA Legal AI Council
+          </p>
+
+          <h2 id="demo-form-title" className="mt-3 text-3xl font-extrabold text-primary">
+            Request a private demonstration
+          </h2>
+
+          <p className="mt-3 text-slate-600">
+            Tell us a little about yourself and your legal team.
+          </p>
+
+          <form onSubmit={handleDemoSubmit} className="mt-7 space-y-4">
+            <input required name="first_name" placeholder="First name" className="w-full rounded-lg border p-3" />
+            <input required name="last_name" placeholder="Last name" className="w-full rounded-lg border p-3" />
+            <input required name="business_name" placeholder="Business or law firm" className="w-full rounded-lg border p-3" />
+            <input required name="email" type="email" placeholder="Work email" className="w-full rounded-lg border p-3" />
+            <input required name="phone" type="tel" placeholder="Contact number" className="w-full rounded-lg border p-3" />
+            <textarea name="message" rows="3" placeholder="Message (optional)" className="w-full rounded-lg border p-3" />
+
+            {formError && (
+              <p className="text-sm text-red-600">{formError}</p>
+            )}
+
+            <button
+              disabled={isSubmitting}
+              type="submit"
+              className="w-full rounded bg-secondary px-6 py-3.5 font-bold text-white disabled:opacity-60"
+            >
+              {isSubmitting ? 'Sending…' : 'Submit enquiry'}
+            </button>
+          </form>
+        </>
+      )}
+    </div>
+  </div>
+)}
     </div>
   );
 }
